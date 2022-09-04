@@ -28,7 +28,7 @@ class PlaceDetailsPage extends StatelessWidget {
         _getFromPhon(),
         _getPragraph(),
         _getFromPhon2(),
-        _getFromPhon3()
+        // _getFromPhon3()
 
       ],
     );
