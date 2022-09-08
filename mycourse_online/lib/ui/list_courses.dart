@@ -1,14 +1,39 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:mycourse_app/Providers/courses_list_providers.dart';
 import 'package:mycourse_app/data/course_model.dart';
+import 'package:provider/provider.dart';
 
 class CoursesList extends StatelessWidget {
   List<Course>? coursesList;
 
-  CoursesList(this.coursesList);
+  CoursesListProviders? coursesListProviders;
+  CoursesList();
 
   @override
   Widget build(BuildContext context) {
-    // coursesList = _buildDummyCoursesList();
+    coursesListProviders=Provider.of<CoursesListProviders>(context);
+
+    if(coursesListProviders!.state==ListScreenState.initial)
+      {
+        coursesListProviders!.getCourses();
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }else if(coursesListProviders!.state==ListScreenState.error){
+        String message=coursesListProviders!.errorMessage!;
+        return Container(
+          color: Colors.white,
+          child: Center(
+            child: Text(message),
+          ),
+        );
+    }
+    else{
+      coursesList=coursesListProviders!.coursesList;
+    }
+
 
     return _buildCoursesScreen();
   }

@@ -1,18 +1,16 @@
-
 import 'package:flutter/material.dart';
+import 'package:mycourse_app/Providers/courses_list_providers.dart';
 import 'package:mycourse_app/data/course_api.dart';
 import 'package:mycourse_app/ui/list_courses.dart';
 import 'data/course_model.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
-  CourseAPI().getCourses().then((value){
-    print('value from main function :$value ');
-  }).catchError(
-      (err){
-        print('error from main :$err');
-      }
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (_) => CoursesListProviders(),
+    )
+  ],child: MyApp(),));
 }
 
 class MyApp extends StatefulWidget {
@@ -21,30 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Course> course=[];
-
-  @override
-  void initState() {
-    super.initState();
-    CourseAPI().getCourses().then((value)
-            {
-              setState((){
-                course=value;
-                if(value.isEmpty==true)
-                  {
-                    print('value is empty ............');
-                  }else{
-                  print("Value in main :${value}");
-                  print("length of Value in main :${value.length}");
-                }
-
-              });
-              print("Value in2 main :${value}");
-            }
-    );
-    print("length of Course in main :${course.length}");
-  }
-
+  List<Course> course = [];
 
   // This widget is the root of your application.
   @override
@@ -56,7 +31,6 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Cairo',
           primarySwatch: Colors.blue,
         ),
-        home: CoursesList(course)
-    );
+        home: CoursesList());
   }
 }
