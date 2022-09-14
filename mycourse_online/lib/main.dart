@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mycourse_app/Providers/courses_list_providers.dart';
-import 'package:mycourse_app/data/course_api.dart';
+import 'package:mycourse_app/ui/course_details.dart';
 import 'package:mycourse_app/ui/list_courses.dart';
 import 'data/course_model.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +31,12 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Cairo',
           primarySwatch: Colors.blue,
         ),
-        home: CoursesList());
+        initialRoute: CoursesList.SCREEN_DETAILS_ID,
+        routes: {
+          CoursesList.SCREEN_DETAILS_ID:(context)=>CoursesList(),
+          CourseDetails.SCREEN_DETIALS_ID:(context)=>CourseDetails(),
+        }
+        // home: CoursesList()
+    );
   }
 }

@@ -18,16 +18,3 @@ class MetaData {
   }
 }
 
-// class UserMessage {
-//  String? message;
-//  UserMessage();
-//
-//  factory UserMessage.fromJson(Map<String, dynamic> json) {
-//   UserMessage u = UserMessage();
-//   u.message = json['en'];
-//
-//   print("message from UserMessage.fromJson :${json['en']}");
-//
-//   return u;
-//  }
-// }
