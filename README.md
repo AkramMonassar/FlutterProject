@@ -5,6 +5,11 @@
 ## Age Calculate App
 <img width="209" alt="ageCalulate2" src="https://user-images.githubusercontent.com/106633888/188304659-50c88dfd-cd74-43fe-89a6-580def4b0642.PNG">
 
+## BMI Calculate App
+<img width="209" alt="2" src="https://user-images.githubusercontent.com/106633888/190257737-441c0795-20f1-462e-a222-f31838e74079.PNG">
+
+
 ## Home Page App
 <img width="209" alt="homePage" src="https://user-images.githubusercontent.com/106633888/188304677-5a4a2a52-f5c9-49ba-8534-3ebae343f6be.PNG">
+
 
