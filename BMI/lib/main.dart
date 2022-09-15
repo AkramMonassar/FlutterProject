@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bmi/ui/home_screen.dart';
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: SafeArea(child: MayApp()),
   ));
 }
@@ -19,7 +20,7 @@ class _MayAppState extends State<MayApp> {
         backgroundColor: const Color.fromARGB(250, 222, 52, 118),
         title: const Center(
             child: Text(
-              'BMI',
+              'حاسبة الوزن المثالي',
               style: TextStyle(fontSize: 30),
             )),
       ),

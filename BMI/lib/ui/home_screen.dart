@@ -19,7 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String _resultReading = '';
 
-  String _finalResult="";
+  String _finalResult = "";
+
+  String _weightPre = "";
   @override
   Widget build(BuildContext context) {
     print('Begin build');
@@ -84,20 +86,32 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            _finalResult,
-            style: const TextStyle(
-                color: Color.fromARGB(200, 53, 150, 199),
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic),
-          ),
-        ),
-        Text(_resultReading,
-            style: const TextStyle(
-                color: Color.fromARGB(250, 222, 52, 118), fontSize: 25))
+        DataTable(columns: const [
+          DataColumn(
+              label: Text(
+            'BMI',
+            style: TextStyle(fontSize: 15),
+          )),
+          DataColumn(label: Text('Reading',style: TextStyle(fontSize: 15),)),
+          DataColumn(label: Text('Weight Pre',style: TextStyle(fontSize: 15),))
+        ], rows: [
+          DataRow(cells: [
+            DataCell(Text(
+              _finalResult,
+              style: TextStyle(fontSize: 15),
+            )),
+            DataCell(Text(
+              _resultReading,
+              style: TextStyle(fontSize: 15),
+            )),
+            DataCell(
+              Text(
+                _weightPre,
+                style: TextStyle(fontSize: 15),
+              ),
+            )
+          ])
+        ])
       ],
     ));
   }
@@ -112,7 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
       if ((_ageController.text.isNotEmpty || age > 0) &&
           (_heightController.text.isNotEmpty || inches > 0) &&
           (_weightController.text.isNotEmpty || weightByKilo > 0)) {
-        result = weightByKilo / (heightbyMeter * heightbyMeter) ; // Our BMI//Do the reading
+        result = weightByKilo /
+            (heightbyMeter * heightbyMeter); // Our BMI//Do the reading
         if (double.parse(result.toStringAsFixed(1)) < 18.5) {
           _resultReading = "Underweight";
           print(_resultReading);
@@ -126,10 +141,68 @@ class _HomeScreenState extends State<HomeScreen> {
         } else if (double.parse(result.toStringAsFixed(1)) >= 30.0) {
           _resultReading = "Obese";
         }
-      }else{
-        result=0.0;
+      } else {
+        result = 0.0;
       }
     });
-    _finalResult="Your BMI: ${result.toStringAsFixed(1)}";
+    _finalResult = "${result.toStringAsFixed(1)}";
+
+    if(heightbyMeter>=1.90){
+      _weightPre="73 to 93kg";
+    }else if(heightbyMeter>=1.88){
+      _weightPre="71 to 88kg";
+    }else if(heightbyMeter>=1.86){
+      _weightPre="86 to 96kg";
+    }else if(heightbyMeter>=1.84){
+      _weightPre="67 to 84kg";
+    }else if(heightbyMeter>=1.82){
+      _weightPre="66 to 82kg";
+    }else if(heightbyMeter>=1.80){
+      _weightPre="65 to 80kg";
+    }else if(heightbyMeter>=1.76){
+      _weightPre="62 to 77kg";
+    }else if(heightbyMeter>=1.74){
+      _weightPre="60 to 75kg";
+    }else if(heightbyMeter>=1.72){
+      _weightPre="59 to 74kg";
+    }else if(heightbyMeter>=1.70){
+      _weightPre="58 to 73kg";
+    }else if(heightbyMeter>=1.68){
+      _weightPre="56 to 71kg";
+    }else if(heightbyMeter>=1.66){
+      _weightPre="55 to 69kg";
+    }else if(heightbyMeter>=1.64){
+      _weightPre="54 to 67kg";
+    }else if(heightbyMeter>=1.62){
+      _weightPre="53 to 56kg";
+    }else if(heightbyMeter>=1.60){
+      _weightPre="52 to 56kg";
+    }else if(heightbyMeter>=1.56){
+      _weightPre="51 to 64kg";
+    }else if(heightbyMeter>=1.50){
+      _weightPre="50 to 58kg";
+    }else if(heightbyMeter>=1.42){
+      _weightPre="39 to 40kg";
+    }else if(heightbyMeter>=1.38){
+      _weightPre="31";
+    }else if(heightbyMeter>=1.33){
+      _weightPre="28";
+    }else if(heightbyMeter>=1.28){
+      _weightPre="25";
+    }else if(heightbyMeter>=1.21){
+      _weightPre="22";
+    }else if(heightbyMeter>=1.15){
+      _weightPre="19";
+    }else if(heightbyMeter>=1.7){
+      _weightPre="17";
+    }else if(heightbyMeter>=1.3){
+      _weightPre="15";
+    }else if(heightbyMeter>=0.93){
+      _weightPre="14";
+    }else if(heightbyMeter>=0.85){
+      _weightPre="12";
+    }else {
+      _weightPre="very small";
+    }
   }
 }
