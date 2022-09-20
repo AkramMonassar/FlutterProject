@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_chat_ui/models/message_model.dart';
 import 'package:my_flutter_chat_ui/models/user_model.dart';
+import 'package:my_flutter_chat_ui/Widgets/bottom_sheet.dart';
+
 
 class ChatScreen extends StatefulWidget {
   final User? user;
@@ -19,20 +21,25 @@ class _ChatScreenState extends State<ChatScreen> {
         margin: isMe
             ? const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 80.0)
             : const EdgeInsets.only(
-                top: 8.0,
-                bottom: 8.0,
-              ),
+          top: 8.0,
+          bottom: 8.0,
+        ),
         padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
-        width: MediaQuery.of(context).size.width * 75,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width * 75,
         decoration: BoxDecoration(
-          color: isMe ? Theme.of(context).accentColor : Color(0xFFFFEFEE),
+          color: isMe ? Theme
+              .of(context)
+              .accentColor : const Color(0xFFFFEFEE),
           borderRadius: isMe
               ? const BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  bottomLeft: Radius.circular(30.0))
+              topLeft: Radius.circular(30.0),
+              bottomLeft: Radius.circular(30.0))
               : const BorderRadius.only(
-                  topRight: Radius.circular(30.0),
-                  bottomRight: Radius.circular(30.0)),
+              topRight: Radius.circular(30.0),
+              bottomRight: Radius.circular(30.0)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
-    if(isMe){
+    if (isMe) {
       return msg;
     }
     return Row(
@@ -70,7 +77,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 : const Icon(Icons.favorite_border),
             iconSize: 30.0,
             color: message.isLiked
-                ? Theme.of(context).primaryColor
+                ? Theme
+                .of(context)
+                .primaryColor
                 : Colors.blueGrey,
             onPressed: () {},
           ),
@@ -82,7 +91,9 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme
+          .of(context)
+          .primaryColor,
       appBar: AppBar(
         title: Center(
           child: Text(widget.user!.name,
@@ -102,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       body: GestureDetector(
-        onTap: ()=>Focus.of(context).unfocus(),
+        onTap: () => Focus.of(context).unfocus(),
         child: Column(
           children: [
             Expanded(
@@ -136,33 +147,41 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   _buildMessageComposer() {
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       height: 70.0,
       color: Colors.white,
       child: Row(
         children: [
-          IconButton(onPressed: (){},
-              icon: const Icon(Icons.attachment),iconSize: 25.0,
-          color: Theme.of(context).primaryColor,),
-           Expanded(
+          IconButton(onPressed: () {
+            showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                context: context,
+                builder: (Builder) => BottomSheetApp());
+          },
+            icon: const Icon(Icons.attach_file), iconSize: 25.0,
+            color: Theme
+                .of(context)
+                .primaryColor,),
+          Expanded(
               child: TextField(
                 textCapitalization: TextCapitalization.sentences,
-                onChanged: (value){
-                },
-            decoration: const InputDecoration.collapsed(
-              hintText:'Send a Message ........',
-            ),
-          )),
+                onChanged: (value) {},
+                decoration: const InputDecoration.collapsed(
+                  hintText: 'Send a Message ........',
+                ),
+              )),
           IconButton(
-            onPressed: (){
+            onPressed: () {
 
             },
-            icon: const Icon(Icons.send),iconSize: 25.0,
-            color: Theme.of(context).primaryColor,)
+            icon: const Icon(Icons.send), iconSize: 25.0,
+            color: Theme
+                .of(context)
+                .primaryColor,)
         ],
       ),
     );
   }
+
 }
