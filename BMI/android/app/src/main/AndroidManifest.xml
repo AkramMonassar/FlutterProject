@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bmi">
+    package="com.ak.monassar.bmi">
    <application
-        android:label="حاسبة الوزن المثالي BMI"
+        android:label="bmi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

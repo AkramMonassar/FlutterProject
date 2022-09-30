@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_chat_ui/Widgets/category_selector.dart';
 import 'package:my_flutter_chat_ui/Widgets/favorite_contact.dart';
 import 'package:my_flutter_chat_ui/Widgets/recent_chats.dart';
+import 'package:my_flutter_chat_ui/menu/menu_main.dart';
 import 'package:my_flutter_chat_ui/models/message_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
           icon: const Icon(Icons.menu),
           iconSize: 30.0,
           color: Colors.white,
-          onPressed: () {},
+          onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>MenuMain())),
         ),
         title: const Center(
             child: Text(
