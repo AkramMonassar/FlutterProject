@@ -5,20 +5,20 @@ class Administrator {
   String?  id;
   String? fullName;
   int? phone;
-  String? userName;
+  String? email;
   String? password;
-  String? rePassword;
+  String? confirmPassword;
   static final _db=FirebaseFirestore.instance;
 
-  Administrator({this.id, this.fullName, this.phone, this.userName,this.password,this.rePassword});
+  Administrator({this.id, this.fullName, this.phone, this.email,this.password,this.confirmPassword});
 
   Map<String,dynamic> toJson()=>{
     'id':id,
     'fullName':fullName,
     'phone':phone,
-    'userName':userName,
+    'email':email,
     'password':password,
-    'rePassword':rePassword,
+    'confirmPassword':confirmPassword,
   };
   factory Administrator.fromSnapshot(DocumentSnapshot<Map<String,dynamic>> document ) {
     final data = document.data()!;
@@ -26,11 +26,11 @@ class Administrator {
     print("data of name ${data["name"]}");
     return Administrator(
         id: document.id,
-        fullName: data["name"],
-        phone: data["age"],
-        userName: data["userName"],
+        fullName: data["fullName"],
+        phone: data["phone"],
+        email: data["email"],
         password: data["password"],
-        rePassword: data["rePassword"]
+        confirmPassword: data["confirmPassword"]
     );
   }
 
@@ -42,9 +42,9 @@ class Administrator {
       id:docAdministrator.id,
       fullName:object.fullName,
       phone:object.phone,
-      userName:object.userName,
+      email:object.email,
       password: object.password,
-      rePassword:object.rePassword,
+      confirmPassword:object.confirmPassword,
     );
     final json=admin.toJson();
     ///Create document and write data to Firebase
@@ -52,13 +52,13 @@ class Administrator {
   }
 // Fetch All uer Or User Details
   static  Future<Administrator> getUserDetails(String name) async{
-    final snapshot=await _db.collection('users').where('name',isEqualTo: name).get();
+    final snapshot=await _db.collection('Administrator').where('email',isEqualTo: name).get();
     final userData=snapshot.docs.map((e) => Administrator.fromSnapshot(e)).single;
     return userData;
   }
 
   static Future<List<Administrator>> getAllUser() async{
-    final snapshot=await _db.collection('users').get();
+    final snapshot=await _db.collection('Administrator').get();
     final userData=snapshot.docs.map((e) => Administrator.fromSnapshot(e)).toList();
     return userData;
   }

@@ -1,10 +1,15 @@
-import 'package:flutter/material.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:school_delivery/business/authSignInSignUp.dart';
+import 'package:school_delivery/ui/options_Admin_Drivers8.dart';
+
+import '../../../data/admin_model.dart';
 import '../../Core/Animation/Fade_Animation.dart';
 import '../../Core/Colors/Hex_Color.dart';
 import '../Login Screen/Login_Screen_Admin.dart';
 
-enum FormData { Name, Phone, userName, Gender, password, ConfirmPassword }
+enum FormData {id, Name, Phone, email, password, confirmPassword }
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -20,11 +25,14 @@ class _SignupScreenState extends State<SignupScreen> {
 
   FormData? selected;
 
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController phoneController = new TextEditingController();
-  TextEditingController userNameController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController confirmPasswordController = new TextEditingController();
+  final _nameController = TextEditingController();
+  final _phoneController =  TextEditingController();
+  final _emailController =  TextEditingController();
+  final _passwordController =  TextEditingController();
+  final _confirmPasswordController =  TextEditingController();
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,13 +111,13 @@ class _SignupScreenState extends State<SignupScreen> {
                               height: 40,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12.0),
-                                color: selected == FormData.userName
+                                color: selected == FormData.email
                                     ? enabled
                                     : backgroundColor,
                               ),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: nameController,
+                                controller: _nameController,
                                 onTap: () {
                                   setState(() {
                                     selected = FormData.Name;
@@ -158,7 +166,8 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: phoneController,
+                                controller: _phoneController,
+                                keyboardType: TextInputType.number,
                                 onTap: () {
                                   setState(() {
                                     selected = FormData.Phone;
@@ -201,38 +210,39 @@ class _SignupScreenState extends State<SignupScreen> {
                               height: 40,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12.0),
-                                color: selected == FormData.userName
+                                color: selected == FormData.email
                                     ? enabled
                                     : backgroundColor,
                               ),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: userNameController,
+                                controller: _emailController,
+                                keyboardType: TextInputType.emailAddress,
                                 onTap: () {
                                   setState(() {
-                                    selected = FormData.userName;
+                                    selected = FormData.email;
                                   });
                                 },
                                 decoration: InputDecoration(
                                   enabledBorder: InputBorder.none,
                                   border: InputBorder.none,
                                   prefixIcon: Icon(
-                                    Icons.person_outline,
-                                    color: selected == FormData.userName
+                                    Icons.email,
+                                    color: selected == FormData.email
                                         ? enabledtxt
                                         : deaible,
                                     size: 20,
                                   ),
-                                  hintText: 'اسم المستخدم بالانجليزي',
+                                  hintText: 'البريد الالكتروني',
                                   hintStyle: TextStyle(
-                                      color: selected == FormData.userName
+                                      color: selected == FormData.email
                                           ? enabledtxt
                                           : deaible,
                                       fontSize: 12),
                                 ),
                                 textAlignVertical: TextAlignVertical.center,
                                 style: TextStyle(
-                                    color: selected == FormData.userName
+                                    color: selected == FormData.email
                                         ? enabledtxt
                                         : deaible,
                                     fontWeight: FontWeight.bold,
@@ -255,7 +265,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       : backgroundColor),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: passwordController,
+                                controller: _passwordController,
                                 onTap: () {
                                   setState(() {
                                     selected = FormData.password;
@@ -317,15 +327,15 @@ class _SignupScreenState extends State<SignupScreen> {
                               height: 40,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.0),
-                                  color: selected == FormData.ConfirmPassword
+                                  color: selected == FormData.confirmPassword
                                       ? enabled
                                       : backgroundColor),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: confirmPasswordController,
+                                controller: _confirmPasswordController,
                                 onTap: () {
                                   setState(() {
-                                    selected = FormData.ConfirmPassword;
+                                    selected = FormData.confirmPassword;
                                   });
                                 },
                                 decoration: InputDecoration(
@@ -333,7 +343,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     border: InputBorder.none,
                                     prefixIcon: Icon(
                                       Icons.lock_open_outlined,
-                                      color: selected == FormData.ConfirmPassword
+                                      color: selected == FormData.confirmPassword
                                           ? enabledtxt
                                           : deaible,
                                       size: 20,
@@ -343,7 +353,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           ? Icon(
                                               Icons.visibility_off,
                                               color: selected ==
-                                                      FormData.ConfirmPassword
+                                                      FormData.confirmPassword
                                                   ? enabledtxt
                                                   : deaible,
                                               size: 20,
@@ -351,7 +361,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                           : Icon(
                                               Icons.visibility,
                                               color: selected ==
-                                                      FormData.ConfirmPassword
+                                                      FormData.confirmPassword
                                                   ? enabledtxt
                                                   : deaible,
                                               size: 20,
@@ -362,14 +372,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                     hintText: 'تاكيد كلمة المرور',
                                     hintStyle: TextStyle(
                                         color:
-                                            selected == FormData.ConfirmPassword
+                                            selected == FormData.confirmPassword
                                                 ? enabledtxt
                                                 : deaible,
                                         fontSize: 12)),
                                 obscureText: ispasswordev,
                                 textAlignVertical: TextAlignVertical.center,
                                 style: TextStyle(
-                                    color: selected == FormData.ConfirmPassword
+                                    color: selected == FormData.confirmPassword
                                         ? enabledtxt
                                         : deaible,
                                     fontWeight: FontWeight.bold,
@@ -383,7 +393,24 @@ class _SignupScreenState extends State<SignupScreen> {
                           FadeAnimation(
                             delay: 1,
                             child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  AuthSignInSignUp.signUp(context,_emailController.text,_passwordController.text,_confirmPasswordController.text);
+                                  if(_passwordController.text==_confirmPasswordController.text) {
+                                    setState(() {
+                                      final admin = Administrator(
+                                        fullName: _nameController.text,
+                                        phone: int.parse(_phoneController.text),
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                        confirmPassword: _confirmPasswordController
+                                            .text,
+                                      );
+                                      Administrator.createAdministrator(admin);
+                                    });
+                                  }else{
+
+                                  }
+                                },
                                 style: TextButton.styleFrom(
                                     backgroundColor: const Color(0xFF2697FF),
                                     padding: const EdgeInsets.symmetric(

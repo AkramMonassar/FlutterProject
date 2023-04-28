@@ -1,13 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:school_delivery/main.dart';
-import 'package:school_delivery/ui/options_Admin_Drivers8.dart';
+import 'package:school_delivery/business/authSignInSignUp.dart';
 
 import '../../Core/Animation/Fade_Animation.dart';
 import '../../Core/Colors/Hex_Color.dart';
 import '../Sign Up Screen/SignUp_Screen.dart';
 
 enum FormData {
-  userName,
+  email,
   password,
 }
 
@@ -24,11 +24,18 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
   bool ispasswordev = true;
   FormData? selected;
 
-  TextEditingController userNameController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
+  @override
+  Widget build(context) {
     return Scaffold(
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -61,8 +68,8 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                 children: [
                   Card(
                     elevation: 5,
-                    color:
-                        const Color.fromARGB(255, 171, 211, 250).withOpacity(0.4),
+                    color: const Color.fromARGB(255, 171, 211, 250)
+                        .withOpacity(0.4),
                     child: Container(
                       width: 400,
                       padding: const EdgeInsets.all(40.0),
@@ -72,9 +79,14 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          // تصميم مكان الشعار
                           FadeAnimation(
                             delay: 0.8,
-                            child:Image.asset('assets/images/schooldelivery.png',width: 250,height: 250,),
+                            child: Image.asset(
+                              'assets/images/schooldelivery.png',
+                              width: 250,
+                              height: 250,
+                            ),
                             // Image.network(
                             //   "https://cdni.iconscout.com/illustration/premium/thumb/job-starting-date-2537382-2146478.png",
                             //   width: 100,
@@ -84,6 +96,7 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                           const SizedBox(
                             height: 10,
                           ),
+                          // نص تكرماً سجل الدخول للاستمرار
                           FadeAnimation(
                             delay: 1,
                             child: const Text(
@@ -95,6 +108,7 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                           const SizedBox(
                             height: 20,
                           ),
+                          // البريد الالكتروني
                           FadeAnimation(
                             delay: 1,
                             child: Container(
@@ -102,38 +116,39 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                               height: 40,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12.0),
-                                color: selected == FormData.userName
+                                color: selected == FormData.email
                                     ? enabled
                                     : backgroundColor,
                               ),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: userNameController,
+                                controller: emailController,
+                                keyboardType: TextInputType.emailAddress,
                                 onTap: () {
                                   setState(() {
-                                    selected = FormData.userName;
+                                    selected = FormData.email;
                                   });
                                 },
                                 decoration: InputDecoration(
                                   enabledBorder: InputBorder.none,
                                   border: InputBorder.none,
                                   prefixIcon: Icon(
-                                    Icons.person_outline,
-                                    color: selected == FormData.userName
+                                    Icons.email_outlined,
+                                    color: selected == FormData.email
                                         ? enabledtxt
                                         : deaible,
                                     size: 20,
                                   ),
-                                  hintText: 'اسم المستخدم',
+                                  hintText: 'البريد الالكتروني',
                                   hintStyle: TextStyle(
-                                      color: selected == FormData.userName
+                                      color: selected == FormData.email
                                           ? enabledtxt
                                           : deaible,
                                       fontSize: 12),
                                 ),
                                 textAlignVertical: TextAlignVertical.center,
                                 style: TextStyle(
-                                    color: selected == FormData.userName
+                                    color: selected == FormData.email
                                         ? enabledtxt
                                         : deaible,
                                     fontWeight: FontWeight.bold,
@@ -144,6 +159,7 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                           const SizedBox(
                             height: 20,
                           ),
+                          // كلمة المرور
                           FadeAnimation(
                             delay: 1,
                             child: Container(
@@ -176,16 +192,18 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                                       icon: ispasswordev
                                           ? Icon(
                                               Icons.visibility_off,
-                                              color: selected == FormData.password
-                                                  ? enabledtxt
-                                                  : deaible,
+                                              color:
+                                                  selected == FormData.password
+                                                      ? enabledtxt
+                                                      : deaible,
                                               size: 20,
                                             )
                                           : Icon(
                                               Icons.visibility,
-                                              color: selected == FormData.password
-                                                  ? enabledtxt
-                                                  : deaible,
+                                              color:
+                                                  selected == FormData.password
+                                                      ? enabledtxt
+                                                      : deaible,
                                               size: 20,
                                             ),
                                       onPressed: () => setState(
@@ -211,58 +229,34 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                           const SizedBox(
                             height: 20,
                           ),
+                          //زر تسجيل الدخول
                           FadeAnimation(
                             delay: 1,
-                            child: TextButton(
-                                onPressed: () {
-                                  if (userNameController.text == 'admin' && passwordController.text == '123') {
-                                    // Navigate to home screen
-                                    print('login is true');
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context)=>const OptionsAdminDrivers8()));
-                                  } else {
-                                    // Display error message
-                                    print('login is false');
-                                    print("userName : ${userNameController} ");
-                                    print("password:${passwordController}");
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('حدث خطأ'),
-                                          content: const Text('هناك خطأ في اسم المستخدم او كلمة المرور'),
-                                          actions: [
-                                            MaterialButton(
-                                              onPressed: () => Navigator.of(context).pop(),
-                                              child: const Text('نعم'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-                                  // Navigator.pop(context);
-                                  // Navigator.of(context)
-                                  //     .push(MaterialPageRoute(builder: (context) {
-                                  //   return MyApp(isLogin: true);
-                                  // }));
-                                },
-                                style: TextButton.styleFrom(
-                                    backgroundColor: const Color(0xFF2697FF),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 14.0, horizontal: 80),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0))),
-                                child: const Text(
-                                  "دخول",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    letterSpacing: 0.5,
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )),
+                            child: GestureDetector(
+                              onTap: (){
+                                AuthSignInSignUp.signIn(context,emailController.text,passwordController.text);
+                              },
+                              child: TextButton(
+                                  onPressed:(){
+                                    AuthSignInSignUp.signIn(context,emailController.text,passwordController.text);
+                                  },
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: const Color(0xFF2697FF),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 14.0, horizontal: 80),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0))),
+                                  child: const Text(
+                                    "دخول",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: 0.5,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                            ),
                           ),
                         ],
                       ),
@@ -275,6 +269,7 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                     height: 10,
                   ),
                   const SizedBox(height: 10),
+                  // نص لا املك حساب ؟ انشاء حساب
                   FadeAnimation(
                     delay: 1,
                     child: Row(
@@ -313,5 +308,3 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
     );
   }
 }
-
-

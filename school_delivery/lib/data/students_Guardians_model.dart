@@ -17,7 +17,7 @@ class StudentsGuardians {
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'name': fullName,
+    'fullName': fullName,
     'phone': phone,
     'address': address,
     'userName':userName,
@@ -66,7 +66,7 @@ class StudentsGuardians {
 // Fetch All uer Or User Details
   static Future<StudentsGuardians> getStudentsGuardians(String name) async {
     final snapshot =
-    await _db.collection('StudentsG').where('name', isEqualTo: name).get();
+    await _db.collection('StudentsG').where('fullName', isEqualTo: name).get();
     final userData = snapshot.docs.map((e) => StudentsGuardians.fromSnapshot(e)).single;
     return userData;
   }
