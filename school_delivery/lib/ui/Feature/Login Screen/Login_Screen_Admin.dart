@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:school_delivery/business/authSignInSignUp.dart';
+import 'package:school_delivery/ui/options_Admin_Drivers8.dart';
 
 import '../../Core/Animation/Fade_Animation.dart';
 import '../../Core/Colors/Hex_Color.dart';
@@ -234,11 +235,13 @@ class _LoginScreenState extends State<LoginScreenAdmin> {
                             delay: 1,
                             child: GestureDetector(
                               onTap: (){
-                                AuthSignInSignUp.signIn(context,emailController.text,passwordController.text);
+                                // AuthSignInSignUp.signIn(context,emailController.text,passwordController.text);
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>const OptionsAdminDrivers8()));
                               },
                               child: TextButton(
                                   onPressed:(){
                                     AuthSignInSignUp.signIn(context,emailController.text,passwordController.text);
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>const OptionsAdminDrivers8()));
                                   },
                                   style: TextButton.styleFrom(
                                       backgroundColor: const Color(0xFF2697FF),

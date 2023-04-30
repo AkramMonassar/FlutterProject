@@ -65,6 +65,8 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                             return DataTable(
                               columns: const [
                                 DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
+                                DataColumn(label: Text('البريد الالكتروني',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
+                                DataColumn(label: Text('كلمة المرور',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
                                 DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
                                 DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
                                 DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
@@ -74,6 +76,8 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                                     color: MaterialStateColor.resolveWith((states) => Colors.grey),
                                     cells: [
                                       DataCell(Text(row['name'])),
+                                      DataCell(Text(row['email'])),
+                                      DataCell(Text(row['password'])),
                                       DataCell(Text(row['phone'].toString())),
                                       DataCell(IconButton(
                                         icon: const Icon(

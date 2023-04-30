@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:school_delivery/business/authSignInSignUp.dart';
+import 'package:school_delivery/ui/Feature/Login%20Screen/Login_Screen_Supervisor.dart';
+import 'package:school_delivery/ui/users_Interface5.dart';
 
 import 'add_New_Student17.dart';
 import 'modify_New_Student17.dart';
-
-
 
 class PreparingStudents16 extends StatefulWidget {
   const PreparingStudents16({Key? key}) : super(key: key);
@@ -18,7 +20,8 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
   List studentsGListObject = [];
   // late QuerySnapshot snap;
   CollectionReference collectionReference =
-  FirebaseFirestore.instance.collection('StudentsG');
+      FirebaseFirestore.instance.collection('StudentsG');
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   void didChangeDependencies() {
@@ -30,16 +33,41 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
   Widget build(BuildContext context) {
     getStudentsDetailsList();
 
-    return SafeArea(
-      child: Stack(
-        children: [
-          // Background image
-          Image.asset(
-            'assets/images/background.jpg',
-            fit: BoxFit.fill,
-          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title:  Directionality(
+              textDirection: TextDirection.rtl,
+              child: Text('تحضير الطلاب / المشرف : ${user.email} ')),
+        ),
+        body: SafeArea(
+            child: Stack(children: [
           Scaffold(
-            backgroundColor: const Color(0xffecefe4), // make the Scaffold background transparent
+            appBar: AppBar(
+              title: MaterialButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserInterface5()));
+                },
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: const [
+                      Text("اذا كنت تريد الخروج ؟ "),
+                      Text("تسجيل الخروج")
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            backgroundColor: const Color(
+                0xffecefe4), // make the Scaffold background transparent
             body: Directionality(
               textDirection: TextDirection.rtl,
               child: SingleChildScrollView(
@@ -62,18 +90,45 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
                                 child: Text(' حدث خطأ  ${snapshot.hasError}'),
                               );
                             }
-                            print("snapshot in streamBuilder : ${snapshot.hasData}");
+                            print(
+                                "snapshot in streamBuilder : ${snapshot.hasData}");
 
                             return DataTable(
                               columns: const [
-                                DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
-                                DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
+                                DataColumn(
+                                  label: Text(
+                                    'الاسم',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                ),
+                                DataColumn(
+                                    label: Text(
+                                  'رقم الهاتف',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                )),
+                                DataColumn(
+                                    label: Text(
+                                  'تعديل',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                )),
+                                DataColumn(
+                                    label: Text(
+                                  'حذف',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                )),
                               ],
                               rows: studentsGListObject.map((row) {
                                 return DataRow(
-                                    color: MaterialStateColor.resolveWith((states) => Colors.grey),
+                                    color: MaterialStateColor.resolveWith(
+                                        (states) => Colors.grey),
                                     cells: [
                                       DataCell(Text(row['fullName'])),
                                       DataCell(Text(row['phone'].toString())),
@@ -81,10 +136,12 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
                                         icon: const Icon(
                                           Icons.edit,
                                         ),
-                                        onPressed: (){
+                                        onPressed: () {
                                           Navigator.push(
                                             context,
-                                            MaterialPageRoute(builder: (context) => ModifyStudentsG17()),
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ModifyStudentsG17()),
                                           );
                                         },
                                       )),
@@ -92,9 +149,7 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
                                         icon: const Icon(
                                           Icons.delete,
                                         ),
-                                        onPressed: (){
-
-                                        },
+                                        onPressed: () {},
                                       )),
                                     ]);
                               }).toList(),
@@ -117,7 +172,7 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
               },
             ),
           ),
-        ],
+        ])),
       ),
     );
   }

@@ -133,7 +133,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         : deaible,
                                     size: 20,
                                   ),
-                                  hintText: 'اكتب اسمك كاملاً',
+                                  hintText: '* اكتب اسمك كاملاً',
                                   hintStyle: TextStyle(
                                       color: selected == FormData.Name
                                           ? enabledtxt
@@ -183,7 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         : deaible,
                                     size: 20,
                                   ),
-                                  hintText: 'رقم الهاتف',
+                                  hintText: '* رقم الهاتف',
                                   hintStyle: TextStyle(
                                       color: selected == FormData.Phone
                                           ? enabledtxt
@@ -233,7 +233,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         : deaible,
                                     size: 20,
                                   ),
-                                  hintText: 'البريد الالكتروني',
+                                  hintText: '* البريد الالكتروني',
                                   hintStyle: TextStyle(
                                       color: selected == FormData.email
                                           ? enabledtxt
@@ -300,7 +300,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       onPressed: () => setState(
                                           () => ispasswordev = !ispasswordev),
                                     ),
-                                    hintText: 'كلمة المرور',
+                                    hintText: '* كلمة المرور',
                                     hintStyle: TextStyle(
                                         color: selected == FormData.password
                                             ? enabledtxt
@@ -369,7 +369,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       onPressed: () => setState(
                                           () => ispasswordev = !ispasswordev),
                                     ),
-                                    hintText: 'تاكيد كلمة المرور',
+                                    hintText: '* تاكيد كلمة المرور',
                                     hintStyle: TextStyle(
                                         color:
                                             selected == FormData.confirmPassword
@@ -394,7 +394,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             delay: 1,
                             child: TextButton(
                                 onPressed: () {
-                                  AuthSignInSignUp.signUp(context,_emailController.text,_passwordController.text,_confirmPasswordController.text);
+                                  AuthSignInSignUp.signUp(context,_nameController.text,_phoneController.text,_emailController.text,_passwordController.text,_confirmPasswordController.text);
                                   if(_passwordController.text==_confirmPasswordController.text) {
                                     setState(() {
                                       final admin = Administrator(
@@ -407,6 +407,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                       );
                                       Administrator.createAdministrator(admin);
                                     });
+                                    _nameController.text="";
+                                    _phoneController.text="";
+                                    _emailController.text="";
+                                    _passwordController.text="";
+                                    _confirmPasswordController.text="";
                                   }else{
 
                                   }

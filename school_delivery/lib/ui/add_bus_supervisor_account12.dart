@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import '../data/supervisor_model.dart';
 import 'Core/Animation/Fade_Animation.dart';
 import 'Core/Colors/Hex_Color.dart';
+import 'package:school_delivery/business/authSignInSignUp.dart';
+
 enum FormData {
   name,
   phone,
   address,
+  userName,
   password,
   confirmPassword
 }
@@ -23,6 +26,7 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
   final controllerName = TextEditingController();
   final controllerPhone = TextEditingController();
   final controllerSupervisorAddress = TextEditingController();
+  final controllerSupervisorEmail=TextEditingController();
   final controllerPassword = TextEditingController();
   final controllerConfirmPassword = TextEditingController();
 
@@ -127,7 +131,7 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                             : deaible,
                                         size: 20,
                                       ),
-                                      hintText: 'اسم المشرف كاملاً',
+                                      hintText: '* اسم المشرف كاملاً',
                                       hintStyle: TextStyle(
                                           color: selected == FormData.name
                                               ? enabledtxt
@@ -178,7 +182,7 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                               : deaible,
                                           size: 20,
                                         ),
-                                        hintText: 'رقم الهاتف',
+                                        hintText: '* رقم الهاتف',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.phone
                                                 ? enabledtxt
@@ -227,7 +231,7 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                               : deaible,
                                           size: 20,
                                         ),
-                                        hintText: 'عنوان المشرف',
+                                        hintText: '* عنوان المشرف',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.address
                                                 ? enabledtxt
@@ -236,6 +240,55 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                     textAlignVertical: TextAlignVertical.center,
                                     style: TextStyle(
                                         color: selected == FormData.address
+                                            ? enabledtxt
+                                            : deaible,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              //  البريد الالكتروني
+                              FadeAnimation(
+                                delay: 1,
+                                child: Container(
+                                  width: 300,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      color: selected == FormData.userName
+                                          ? enabled
+                                          : backgroundColor),
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: TextField(
+                                    controller: controllerSupervisorEmail,
+                                    keyboardType: TextInputType.text,
+                                    onTap: () {
+                                      setState(() {
+                                        selected = FormData.userName;
+                                      });
+                                    },
+                                    decoration: InputDecoration(
+                                        enabledBorder: InputBorder.none,
+                                        border: InputBorder.none,
+                                        prefixIcon: Icon(
+                                          Icons.email_outlined,
+                                          color: selected == FormData.userName
+                                              ? enabledtxt
+                                              : deaible,
+                                          size: 20,
+                                        ),
+                                        hintText: '* البريد الالكتروني',
+                                        hintStyle: TextStyle(
+                                            color: selected == FormData.userName
+                                                ? enabledtxt
+                                                : deaible,
+                                            fontSize: 12)),
+                                    textAlignVertical: TextAlignVertical.center,
+                                    style: TextStyle(
+                                        color: selected == FormData.userName
                                             ? enabledtxt
                                             : deaible,
                                         fontWeight: FontWeight.bold,
@@ -294,7 +347,7 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                           onPressed: () => setState(
                                                   () => ispasswordev = !ispasswordev),
                                         ),
-                                        hintText: 'كلمة السر',
+                                        hintText: '* كلمة السر',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.password
                                                 ? enabledtxt
@@ -362,7 +415,7 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                           onPressed: () => setState(
                                                   () => ispasswordev = !ispasswordev),
                                         ),
-                                        hintText: 'تاكيد كلمة المرور',
+                                        hintText: '* تاكيد كلمة المرور',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.confirmPassword
                                                 ? enabledtxt
@@ -387,16 +440,37 @@ class _AddBusSupervisor12 extends State<AddBusSupervisor12> {
                                 delay: 1,
                                 child: TextButton(
                                     onPressed: () {
-                                      setState((){
-                                        final supervisor = Supervisor(
-                                            name: controllerName.text,
-                                            phone:int.parse(controllerPhone.text) ,
-                                            address: controllerSupervisorAddress.text,
-                                            password: controllerPassword.text,
-                                            confirmPassword: controllerConfirmPassword.text
-                                        );
-                                        Supervisor.createSupervisor(supervisor);
-                                      });
+                                      AuthSignInSignUp.signUpSupervisor(context, controllerName.text, controllerPhone.text, controllerSupervisorAddress.text, controllerSupervisorEmail.text, controllerPassword.text, controllerConfirmPassword.text);
+                                      if(controllerPassword.text==controllerConfirmPassword.text)
+                                        {
+                                          if(controllerName.text.isNotEmpty
+                                              &&controllerPhone.text.isNotEmpty &&
+                                              controllerSupervisorAddress.text.isNotEmpty &&
+                                              controllerSupervisorEmail.text.isNotEmpty &&
+                                              controllerPassword.text.isNotEmpty &&
+                                              controllerConfirmPassword.text.isNotEmpty
+                                              && AuthSignInSignUp.isEmail(controllerSupervisorEmail.text))
+                                            {
+                                              setState((){
+                                                final supervisor = Supervisor(
+                                                    name: controllerName.text,
+                                                    phone:int.parse(controllerPhone.text) ,
+                                                    address: controllerSupervisorAddress.text,
+                                                    email: controllerSupervisorEmail.text,
+                                                    password: controllerPassword.text,
+                                                    confirmPassword: controllerConfirmPassword.text
+                                                );
+                                                Supervisor.createSupervisor(supervisor);
+                                              });
+                                                controllerName.text="";
+                                                controllerPhone.text="";
+                                                controllerSupervisorAddress.text="";
+                                                controllerSupervisorEmail.text="";
+                                                controllerPassword.text="";
+                                                controllerConfirmPassword.text="";
+
+                                            }
+                                        }
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: const Color(0xFF2697FF),
