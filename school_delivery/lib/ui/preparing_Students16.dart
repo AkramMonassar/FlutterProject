@@ -37,34 +37,51 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title:  Directionality(
-              textDirection: TextDirection.rtl,
-              child: Text('تحضير الطلاب / المشرف : ${user.email} ')),
+          title: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    // Add your refresh logic here
+                    setState(() {
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PreparingStudents16()));
+                    });
+                  },
+                  icon: Icon(Icons.refresh),
+                  color: Colors.grey,
+                  tooltip: 'Refresh',
+                  iconSize: 32,
+                ),
+                Text("كشف الطلاب",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w900),),
+                IconButton(
+                  onPressed: () {
+                    // Add your refresh logic here
+                    FirebaseAuth.instance.signOut();
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserInterface5()));
+                  },
+                  icon: Icon(Icons.logout_outlined),
+                  color: Colors.grey,
+                  tooltip: 'Refresh',
+                  iconSize: 32,
+                ),
+              ],
+            ),
+          ),
         ),
         body: SafeArea(
             child: Stack(children: [
           Scaffold(
             appBar: AppBar(
-              title: MaterialButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UserInterface5()));
-                },
-                child: Directionality(
+              title: Directionality(
                   textDirection: TextDirection.rtl,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      Text("اذا كنت تريد الخروج ؟ "),
-                      Text("تسجيل الخروج")
-                    ],
-                  ),
-                ),
-              ),
+                  child: Center(child: Text(' المشرف : ${user.email} ',style: TextStyle(fontSize: 15,color: Colors.white),))),
             ),
             backgroundColor: const Color(
                 0xffecefe4), // make the Scaffold background transparent
@@ -84,10 +101,18 @@ class _PreparingStudents16 extends State<PreparingStudents16> {
                           stream: collectionReference.snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
-                            } else if (snapshot.hasError) {
+                                return CircularProgressIndicator();
+                            } else if (snapshot.hasError || !studentsGListObject.isNotEmpty) {
                               return Center(
-                                child: Text(' حدث خطأ  ${snapshot.hasError}'),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        ' حدث خطأ قد يكون بسبب ما او لعدم وجود بيانات ، اذا كان  ${snapshot.hasError}'),
+                                    Text(
+                                        ' بسبب عدم وجود بيانات فعليك اضافة طلاب وستحتل المشكلة',style: TextStyle(color: Colors.red),)
+                                  ],
+                                ),
                               );
                             }
                             print(

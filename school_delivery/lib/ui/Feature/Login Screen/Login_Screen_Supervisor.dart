@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreenSupervisor> {
   bool ispasswordev = true;
   FormData? selected;
   final message = "يرجى مراجعة ادخال البيانات او مراجعة البريد الالكتروني وكتابته بطريقة صحيحية";
+  final msg = ' تم الدخول بنجاح اهلاً وسهلا';
 
   final emailController =  TextEditingController();
   final passwordController =  TextEditingController();
@@ -81,11 +82,6 @@ class _LoginScreenState extends State<LoginScreenSupervisor> {
                           FadeAnimation(
                             delay: 0.8,
                             child:Image.asset('assets/images/schooldelivery.png',width: 250,height: 250,),
-                            // Image.network(
-                            //   "https://cdni.iconscout.com/illustration/premium/thumb/job-starting-date-2537382-2146478.png",
-                            //   width: 100,
-                            //   height: 100,
-                            // ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -228,9 +224,10 @@ class _LoginScreenState extends State<LoginScreenSupervisor> {
                                   onPressed: () {
                                     //
                                     if(AuthSignInSignUp.isEmail(emailController.text)) {
-                                      AuthSignInSignUp.signInSupervisor(
+                                      AuthSignInSignUp.signInStudents(
                                           context, emailController.text,
                                           passwordController.text);
+                                      AuthSignInSignUp.showAlertDialog(context, msg, "مرحبا");
                                     }else{
                                       AuthSignInSignUp.showAlertDialog(context, message, 'انتبه');
                                     }

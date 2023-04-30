@@ -3,12 +3,13 @@ import 'package:school_delivery/main.dart';
 import 'package:school_delivery/ui/student_Parent20.dart';
 import 'package:school_delivery/ui/options_Admin_Drivers8.dart';
 
+import '../../../business/authSignInSignUp.dart';
 import '../../Core/Animation/Fade_Animation.dart';
 import '../../Core/Colors/Hex_Color.dart';
 import '../Sign Up Screen/SignUp_Screen.dart';
 
 enum FormData {
-  userName,
+  email,
   password,
 }
 
@@ -24,8 +25,10 @@ class _LoginScreenState extends State<LoginScreenGuardian> {
   Color backgroundColor = const Color(0xFF1F1A30);
   bool ispasswordev = true;
   FormData? selected;
+  final message = "يرجى مراجعة ادخال البيانات او مراجعة البريد الالكتروني وكتابته بطريقة صحيحية";
 
-  TextEditingController userNameController = new TextEditingController();
+
+  TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
   @override
@@ -76,11 +79,6 @@ class _LoginScreenState extends State<LoginScreenGuardian> {
                           FadeAnimation(
                             delay: 0.8,
                             child:Image.asset('assets/images/schooldelivery.png',width: 250,height: 250,),
-                            // Image.network(
-                            //   "https://cdni.iconscout.com/illustration/premium/thumb/job-starting-date-2537382-2146478.png",
-                            //   width: 100,
-                            //   height: 100,
-                            // ),
                           ),
                           const SizedBox(
                             height: 10,
@@ -103,38 +101,38 @@ class _LoginScreenState extends State<LoginScreenGuardian> {
                               height: 40,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12.0),
-                                color: selected == FormData.userName
+                                color: selected == FormData.email
                                     ? enabled
                                     : backgroundColor,
                               ),
                               padding: const EdgeInsets.all(5.0),
                               child: TextField(
-                                controller: userNameController,
+                                controller: emailController,
                                 onTap: () {
                                   setState(() {
-                                    selected = FormData.userName;
+                                    selected = FormData.email;
                                   });
                                 },
                                 decoration: InputDecoration(
                                   enabledBorder: InputBorder.none,
                                   border: InputBorder.none,
                                   prefixIcon: Icon(
-                                    Icons.person_outline,
-                                    color: selected == FormData.userName
+                                    Icons.email_outlined,
+                                    color: selected == FormData.email
                                         ? enabledtxt
                                         : deaible,
                                     size: 20,
                                   ),
-                                  hintText: 'اسم المستخدم',
+                                  hintText: 'البريد الالكتروني',
                                   hintStyle: TextStyle(
-                                      color: selected == FormData.userName
+                                      color: selected == FormData.email
                                           ? enabledtxt
                                           : deaible,
                                       fontSize: 12),
                                 ),
                                 textAlignVertical: TextAlignVertical.center,
                                 style: TextStyle(
-                                    color: selected == FormData.userName
+                                    color: selected == FormData.email
                                         ? enabledtxt
                                         : deaible,
                                     fontWeight: FontWeight.bold,
@@ -216,37 +214,14 @@ class _LoginScreenState extends State<LoginScreenGuardian> {
                             delay: 1,
                             child: TextButton(
                                 onPressed: () {
-                                  if (userNameController.text == 'father' && passwordController.text == '123') {
-                                    // Navigate to home screen
-                                    print('login is true');
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context)=>const StudentParent20()));
-                                  } else {
-                                    // Display error message
-                                    print('login is false');
-                                    print("userName : ${userNameController} ");
-                                    print("password:${passwordController}");
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text('حدث خطأ'),
-                                          content: const Text('هناك خطأ في اسم المستخدم او كلمة المرور'),
-                                          actions: [
-                                            MaterialButton(
-                                              onPressed: () => Navigator.of(context).pop(),
-                                              child: const Text('نعم'),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
+                                  //
+                                  if(AuthSignInSignUp.isEmail(emailController.text)) {
+                                    AuthSignInSignUp.signInSupervisor(
+                                        context, emailController.text,
+                                        passwordController.text);
+                                  }else{
+                                    AuthSignInSignUp.showAlertDialog(context, message, 'انتبه');
                                   }
-                                  // Navigator.pop(context);
-                                  // Navigator.of(context)
-                                  //     .push(MaterialPageRoute(builder: (context) {
-                                  //   return MyApp(isLogin: true);
-                                  // }));
                                 },
                                 style: TextButton.styleFrom(
                                     backgroundColor: const Color(0xFF2697FF),

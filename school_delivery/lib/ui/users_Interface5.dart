@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school_delivery/ui/Feature/Login%20Screen/Login_Screen_Admin.dart';
+import 'package:school_delivery/business/authStudentFoundDataInPrepar.dart';
 import 'package:school_delivery/ui/Feature/Login%20Screen/Login_Screen_Guardian.dart';
-import 'package:school_delivery/ui/Feature/Login%20Screen/Login_Screen_Supervisor.dart';
 import 'package:school_delivery/ui/widgets/background_widget.dart';
 
 import '../business/auth.dart';
@@ -54,8 +53,10 @@ class UserInterface5 extends StatelessWidget {
                   SizedBox(
                     width: 200,
                     child: MaterialButton(onPressed: (){
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context)=>LoginScreenSupervisor()));
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=>LoginScreenSupervisor()));
+                          MaterialPageRoute(builder: (context)=>AuthStudentFoundDataInPrepare()));
                     },
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -83,7 +84,7 @@ class UserInterface5 extends StatelessWidget {
                     width: 200,
                     child: MaterialButton(onPressed: (){
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=>LoginScreenGuardian()));
+                          MaterialPageRoute(builder: (context)=>AuthStudentFoundDataInPrepare()));
                     },
                       color: Colors.white,
                       shape: RoundedRectangleBorder(

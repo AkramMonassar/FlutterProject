@@ -5,7 +5,7 @@ class StudentsGuardians {
   String? fullName;
   int? phone;
   String? address;
-  String? userName;
+  String? email;
   String? password;
   String? confirmPassword;
   int? busId;
@@ -13,14 +13,14 @@ class StudentsGuardians {
   static final _db=FirebaseFirestore.instance;
 
 
-  StudentsGuardians({this.id, this.fullName, this.phone, this.address,this.userName,this.password,this.confirmPassword,this.busId,this.supervisorId});
+  StudentsGuardians({this.id, this.fullName, this.phone, this.address,this.email,this.password,this.confirmPassword,this.busId,this.supervisorId});
 
   Map<String, dynamic> toJson() => {
     'id': id,
     'fullName': fullName,
     'phone': phone,
     'address': address,
-    'userName':userName,
+    'email':email,
     'password': password,
     'confirmPassword': confirmPassword,
     'busId':busId,
@@ -51,7 +51,7 @@ class StudentsGuardians {
       fullName: object.fullName,
       phone: object.phone,
       address: object.address,
-      userName: object.userName,
+      email: object.email,
       password: object.password,
       confirmPassword: object.confirmPassword,
       busId: object.busId,
@@ -66,7 +66,7 @@ class StudentsGuardians {
 // Fetch All uer Or User Details
   static Future<StudentsGuardians> getStudentsGuardians(String name) async {
     final snapshot =
-    await _db.collection('StudentsG').where('fullName', isEqualTo: name).get();
+    await _db.collection('StudentsG').where('email', isEqualTo: name).get();
     final userData = snapshot.docs.map((e) => StudentsGuardians.fromSnapshot(e)).single;
     return userData;
   }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class VerifyLoginFrom{
-  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('Supervisor');
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('StudentsG');
 
   Future<bool> verifyLogin(String email, String password) async {
     // Get a reference to the user document with the given email

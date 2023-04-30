@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:school_delivery/ui/student_Parent20.dart';
 
 import '../ui/preparing_Students16.dart';
 
@@ -130,9 +131,55 @@ class AuthSignInSignUp {
       );
       // handle successful login
       message = ' تم الدخول بنجاح اهلاً وسهلا /${userCredential.user!.email}';
+
       Navigator.push(context, MaterialPageRoute(builder: (context)=> PreparingStudents16()));
       // Show an error dialog
       showAlertDialog(context, message, "مرحبا");
+      print("user in Sign In :${userCredential.user}");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        // handle user not found
+        message = 'لم يتم العثور على المستخدم الرجاء التاكد ومعاودة الدخول';
+        print("Error : Invalid user not found");
+        // Show an error dialog
+        showAlertDialog(context, message, "خطأ");
+        print(" خطأ:${e.code}");
+      } else if (e.code == 'wrong-password') {
+        // handle wrong password error
+        message = ' حاول التاكد من كلمة المرور يابطل';
+        print("Error : Invalid wrong password error");
+        print("Wrong password : ${e.code}");
+        showAlertDialog(context, message, "خطأ");
+      }else if(e.code=='user-not-found' || e.code == 'wrong-password'){
+        // handle wrong password error
+        message = ' حاول التاكد من كلمة المرور او البريد الالكتروني بطريقة صحيحية';
+        print("Error : Invalid wrong password error or email wrong");
+        print("Wrong password : ${e.code}");
+        showAlertDialog(context, message, "خطأ");
+      }
+      else {
+        message = 'اذا لم تستيطع الدخول فحاول ادخل البيانات او حاول التاكد من اتصالك بالانترنت !  ';
+        print("Error : An error occurred. Please try again later");
+        showAlertDialog(context, message, "تنبية");
+        return const CircularProgressIndicator();
+      }
+    }
+  }
+
+  static Future signInStudents(
+      BuildContext context, String email, String password) async {
+    String message = '';
+    try {
+      UserCredential? userCredential =
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      // handle successful login
+      // message = ' تم الدخول بنجاح اهلاً وسهلا /${userCredential.user!.email}';
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> StudentParent20()));
+      // Show an error dialog
+      // showAlertDialog(context, message, "مرحبا");
       print("user in Sign In :${userCredential.user}");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -171,7 +218,7 @@ class AuthSignInSignUp {
       String address,
       String email,
       String password,
-      String confirm) async {
+      String confirm,) async {
     String message = '';
     if (name.isNotEmpty &&
         phone.isNotEmpty &&
@@ -195,7 +242,43 @@ class AuthSignInSignUp {
       showAlertDialog(context, message, 'انتبه');
     }
   }
-
+  static Future signUpStudents(
+      BuildContext context,
+      String name,
+      String phone,
+      String address,
+      String email,
+      String password,
+      String confirm,
+      String busId,
+      String superId
+      ) async {
+    String message = '';
+    if (name.isNotEmpty &&
+        phone.isNotEmpty &&
+        address.isNotEmpty &&
+        email.isNotEmpty &&
+        password.isNotEmpty &&
+        confirm.isNotEmpty &&
+        busId.isNotEmpty&&
+        superId.isNotEmpty&&
+        isEmail(email)) {
+      if (passwordConfirmed(password, confirm)) {
+        print("------------in create user---------");
+        // انشاء مستخدم جديد في جدول التحقق الايميل وكلمة المرور فقط على فايربيس
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email.trim(), password: password.trim());
+        message = "تم بنجاح انشاء مستخدم جديد";
+        showAlertDialog(context, message, "مبروك");
+      } else {
+        message = "لم تتطابق كلمتا المرور الرجاء المراجعة ثم الاشتراك";
+        showAlertDialog(context, message, "تحذير");
+      }
+    } else {
+      message = "هناك حقل لم يتم تعبئته او تم تعبئته بطريقة خاطئة يرجى مراجعة جميع الحقول ثم الاشتراك";
+      showAlertDialog(context, message, 'انتبه');
+    }
+  }
 
 static  bool isEmail(String text) {
     // Define a regular expression pattern to match email addresses

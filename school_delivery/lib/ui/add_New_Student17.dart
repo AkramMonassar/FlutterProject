@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import '../business/authSignInSignUp.dart';
 import '../data/students_Guardians_model.dart';
-import '../data/supervisor_model.dart';
 import 'Core/Animation/Fade_Animation.dart';
 import 'Core/Colors/Hex_Color.dart';
+
 enum FormData {
   name,
   phone,
   address,
-  userName,
+  email,
   password,
   confirmPassword,
   busId,
@@ -27,7 +28,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
   final controllerName = TextEditingController();
   final controllerPhone = TextEditingController();
   final controllerAddress = TextEditingController();
-  final controllerUserName = TextEditingController();
+  final controlleremail = TextEditingController();
   final controllerPassword = TextEditingController();
   final controllerConfirmPassword = TextEditingController();
   final controllerBusId = TextEditingController();
@@ -134,7 +135,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                             : deaible,
                                         size: 20,
                                       ),
-                                      hintText: 'اسم الطالب كاملاً',
+                                      hintText: '* اسم الطالب كاملاً',
                                       hintStyle: TextStyle(
                                           color: selected == FormData.name
                                               ? enabledtxt
@@ -185,7 +186,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                               : deaible,
                                           size: 20,
                                         ),
-                                        hintText: 'رقم الهاتف',
+                                        hintText: '* رقم الهاتف',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.phone
                                                 ? enabledtxt
@@ -234,7 +235,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                               : deaible,
                                           size: 20,
                                         ),
-                                        hintText: 'عنوان الطالب',
+                                        hintText: '* عنوان الطالب',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.address
                                                 ? enabledtxt
@@ -253,7 +254,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              //اسم المستخدم
+                              //البريد الالكتروني
                               FadeAnimation(
                                 delay: 1,
                                 child: Container(
@@ -261,38 +262,38 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                   height: 40,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12.0),
-                                    color: selected == FormData.userName
+                                    color: selected == FormData.email
                                         ? enabled
                                         : backgroundColor,
                                   ),
                                   padding: const EdgeInsets.all(5.0),
                                   child: TextField(
-                                    controller: controllerUserName,
+                                    controller: controlleremail,
                                     onTap: () {
                                       setState(() {
-                                        selected = FormData.userName;
+                                        selected = FormData.email;
                                       });
                                     },
                                     decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
                                       border: InputBorder.none,
                                       prefixIcon: Icon(
-                                        Icons.person_rounded,
-                                        color: selected == FormData.userName
+                                        Icons.email_outlined,
+                                        color: selected == FormData.email
                                             ? enabledtxt
                                             : deaible,
                                         size: 20,
                                       ),
-                                      hintText: 'اسم المستخدم',
+                                      hintText: '* البريد الالكتروني',
                                       hintStyle: TextStyle(
-                                          color: selected == FormData.userName
+                                          color: selected == FormData.email
                                               ? enabledtxt
                                               : deaible,
                                           fontSize: 12),
                                     ),
                                     textAlignVertical: TextAlignVertical.center,
                                     style: TextStyle(
-                                        color: selected == FormData.userName
+                                        color: selected == FormData.email
                                             ? enabledtxt
                                             : deaible,
                                         fontWeight: FontWeight.bold,
@@ -351,7 +352,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                           onPressed: () => setState(
                                                   () => ispasswordev = !ispasswordev),
                                         ),
-                                        hintText: 'كلمة السر',
+                                        hintText: '* كلمة السر',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.password
                                                 ? enabledtxt
@@ -419,7 +420,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                           onPressed: () => setState(
                                                   () => ispasswordev = !ispasswordev),
                                         ),
-                                        hintText: 'تاكيد كلمة المرور',
+                                        hintText: '* تاكيد كلمة المرور',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.confirmPassword
                                                 ? enabledtxt
@@ -470,7 +471,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                               : deaible,
                                           size: 20,
                                         ),
-                                        hintText: 'رقم الباص',
+                                        hintText: '* رقم الباص',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.busId
                                                 ? enabledtxt
@@ -520,7 +521,7 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                               : deaible,
                                           size: 20,
                                         ),
-                                        hintText: 'رقم المشرف',
+                                        hintText: '* رقم المشرف',
                                         hintStyle: TextStyle(
                                             color: selected == FormData.supervisorId
                                                 ? enabledtxt
@@ -544,19 +545,40 @@ class _AddStudentsG17 extends State<AddStudentsG17> {
                                 delay: 1,
                                 child: TextButton(
                                     onPressed: () {
-                                      setState((){
-                                        final students = StudentsGuardians(
-                                          fullName: controllerName.text,
-                                          phone:int.parse(controllerPhone.text) ,
-                                          address: controllerAddress.text,
-                                          userName: controllerUserName.text,
-                                          password: controllerPassword.text,
-                                          confirmPassword: controllerConfirmPassword.text,
-                                          busId:int.parse(controllerBusId.text),
-                                          supervisorId: int.parse(controllerSupervisorId.text),
-                                        );
-                                        StudentsGuardians.createStudentsGuardians(students);
-                                      });
+                                      AuthSignInSignUp.signUpStudents(context, controllerName.text, controllerPhone.text, controllerAddress.text, controlleremail.text, controllerPassword.text, controllerConfirmPassword.text,controllerBusId.text,controllerSupervisorId.text);
+                                      if(controllerPassword.text==controllerConfirmPassword.text)
+                                      {
+                                        if(controllerName.text.isNotEmpty
+                                            &&controllerPhone.text.isNotEmpty &&
+                                            controllerAddress.text.isNotEmpty &&
+                                            controlleremail.text.isNotEmpty &&
+                                            controllerPassword.text.isNotEmpty &&
+                                            controllerConfirmPassword.text.isNotEmpty
+                                            && AuthSignInSignUp.isEmail(controlleremail.text))
+                                        {
+                                          setState((){
+                                            final students = StudentsGuardians(
+                                              fullName: controllerName.text,
+                                              phone:int.parse(controllerPhone.text) ,
+                                              address: controllerAddress.text,
+                                              email: controlleremail.text,
+                                              password: controllerPassword.text,
+                                              confirmPassword: controllerConfirmPassword.text,
+                                              busId:int.parse(controllerBusId.text),
+                                              supervisorId: int.parse(controllerSupervisorId.text),
+                                            );
+                                            StudentsGuardians.createStudentsGuardians(students);
+                                          });
+                                          controllerName.text="";
+                                          controllerPhone.text="";
+                                          controllerAddress.text="";
+                                          controlleremail.text="";
+                                          controllerPassword.text="";
+                                          controllerConfirmPassword.text="";
+                                          controllerBusId.text="";
+                                          controllerSupervisorId.text="";
+                                        }
+                                      }
                                     },
                                     style: TextButton.styleFrom(
                                         backgroundColor: const Color(0xFF2697FF),
