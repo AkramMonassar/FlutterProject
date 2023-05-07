@@ -34,79 +34,85 @@ class _BusDrivers10 extends State<BusDrivers10> {
     return SafeArea(
       child: Stack(
         children: [
-          // Background image
-          Image.asset(
-            'assets/images/background.jpg',
-            fit: BoxFit.fill,
-          ),
           Scaffold(
-            backgroundColor: Color(0xffecefe4), // make the Scaffold background transparent
+            backgroundColor: Color(0xff3b4c9f), // make the Scaffold background transparent
             body: Directionality(
               textDirection: TextDirection.rtl,
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          setState(() {});
-                        },
-                        child: StreamBuilder(
-                          stream: collectionReference.snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
-                            } else if (snapshot.hasError) {
-                              return Center(
-                                child: Text(' حدث خطأ  ${snapshot.hasError}'),
-                              );
-                            }
-                            print("snapshot in streamBuilder : ${snapshot.hasData}");
-
-                            return Container(
-                              child: DataTable(
-                                columns: const [
-                                  DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
-                                  DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                  DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                  DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                ],
-                                rows: BusesListObject.map((row) {
-                                  return DataRow(
-                                      color: MaterialStateColor.resolveWith((states) => Colors.grey),
-                                      cells: [
-                                    DataCell(Text(row['fullName'])),
-                                    DataCell(Text(row['phone'].toString())),
-                                    DataCell(IconButton(
-                                      icon: const Icon(
-                                        Icons.edit,
-                                      ),
-                                      onPressed: (){
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => ModifyBusDriver11()),
-                                        );
-                                      },
-                                    )),
-                                    DataCell(IconButton(
-                                      icon: Icon(
-                                        Icons.delete,
-                                      ),
-                                      onPressed: (){
-
-                                      },
-                                    )),
-                                  ]);
-                                }).toList(),
-                              ),
-                            );
+                child: Container(
+                  padding: EdgeInsets.only(top: 40,right: 5,left: 10,bottom: 20),
+                  child: Column(
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            setState(() {});
                           },
+                          child: StreamBuilder(
+                            stream: collectionReference.snapshots(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return CircularProgressIndicator();
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                  child: Text(' حدث خطأ  ${snapshot.hasError}'),
+                                );
+                              }
+                              print("snapshot in streamBuilder : ${snapshot.hasData}");
+
+                              return Container(
+                                width: 380,
+                                height: 600,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+
+                                ),
+                                child: DataTable(
+                                  columnSpacing: 5,
+                                  columns: const [
+                                    DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
+                                    DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
+                                    DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
+                                    DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
+                                  ],
+                                  rows: BusesListObject.map((row) {
+                                    return DataRow(
+                                        color: MaterialStateColor.resolveWith((states) => Colors.grey),
+                                        cells: [
+                                      DataCell(Text(row['fullName'])),
+                                      DataCell(Text(row['phone'].toString())),
+                                      DataCell(IconButton(
+                                        icon: const Icon(
+                                          Icons.edit,
+                                        ),
+                                        onPressed: (){
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) => ModifyBusDriver11()),
+                                          );
+                                        },
+                                      )),
+                                      DataCell(IconButton(
+                                        icon: Icon(
+                                          Icons.delete,
+                                        ),
+                                        onPressed: (){
+
+                                        },
+                                      )),
+                                    ]);
+                                  }).toList(),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

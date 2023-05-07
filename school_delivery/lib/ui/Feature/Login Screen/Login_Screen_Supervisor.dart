@@ -224,10 +224,10 @@ class _LoginScreenState extends State<LoginScreenSupervisor> {
                                   onPressed: () {
                                     //
                                     if(AuthSignInSignUp.isEmail(emailController.text)) {
-                                      AuthSignInSignUp.signInStudents(
+                                      AuthSignInSignUp.signInSupervisor(
                                           context, emailController.text,
                                           passwordController.text);
-                                      AuthSignInSignUp.showAlertDialog(context, msg, "مرحبا");
+
                                     }else{
                                       AuthSignInSignUp.showAlertDialog(context, message, 'انتبه');
                                     }

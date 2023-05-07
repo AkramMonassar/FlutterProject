@@ -1,14 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Notes {
+class NotesSupervisor {
   int?  id;
-  String? textNote;
-  DateTime? dateTime;
-  TimeOfDay? timeOfDay;
+  final String? message;
+  final DateTime? timestamp;
   // supervisor or studentGuardian
   String? writer;
   int? studentGuardianId;
   int? supervisorId;
 
-  Notes({this.id, this.textNote, this.dateTime, this.timeOfDay,this.writer,this.studentGuardianId,this.supervisorId});
+
+  NotesSupervisor(this.message,this.writer,this.studentGuardianId,this.supervisorId, {required DateTime timestamp})
+      : this.timestamp = timestamp ;
+
+  NotesSupervisor.fromSnapshot(DocumentSnapshot snapshot)
+      : message = snapshot['message'],
+        writer=snapshot['writer'],
+        studentGuardianId=snapshot['writer'],
+        supervisorId=snapshot['supervisorId'],
+        timestamp = (snapshot['timestamp'] as Timestamp).toDate();
 }

@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreenGuardian> {
                                 onPressed: () {
                                   //
                                   if(AuthSignInSignUp.isEmail(emailController.text)) {
-                                    AuthSignInSignUp.signInSupervisor(
+                                    AuthSignInSignUp.signInStudents(
                                         context, emailController.text,
                                         passwordController.text);
                                   }else{

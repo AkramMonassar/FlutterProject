@@ -4,17 +4,24 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:school_delivery/ui/users_Interface5.dart';
 import 'package:school_delivery/ui/widgets/floatActionButton.dart';
-import 'package:school_delivery/ui/widgets/floatActionButtonGuardiansStudent.dart';
 import '../Provider/profideDataStuent.dart';
-import 'notifications_Parent22.dart';
 
-class StudentParent20 extends StatelessWidget {
+class NoteWriteSuprvisor18 extends StatefulWidget {
+  @override
+  State<NoteWriteSuprvisor18> createState() => _NoteWriteSuprvisor18State();
+}
+
+class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
   DateTime today = DateTime.now();
+
+  TextEditingController noteController=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
     Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final alertsManager = Provider.of<ProviderDataStudent>(context);
+    final noteManager = Provider.of<ProviderDataStudent>(context);
+    noteManager.NoteManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
@@ -23,8 +30,17 @@ class StudentParent20 extends StatelessWidget {
         builder: (context,dataStudent,child){
           return SafeArea(
             child: Scaffold(
+              resizeToAvoidBottomInset: false,
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-              floatingActionButton:  FloatActionButtonGuardiansStudent(),
+              floatingActionButton:FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  noteManager.addNote('${noteController.text}');
+                  childMethod(context);
+                },
+                backgroundColor: Colors.indigo[300],
+                child: const Icon(Icons.send_outlined),
+              ),
               backgroundColor: const Color(0xff3b4c9f),
               body: Container(
                 padding:
@@ -75,9 +91,9 @@ class StudentParent20 extends StatelessWidget {
                             const SizedBox(
                               width: 15,
                             ),
-                            // نص عنوان الصفحة " التحضير اليومي للطلاب "
+                            // نص عنوان الصفحة " التنبيهات "
                             const Text(
-                              'واجهة ولي الامر',
+                              'كتابة ملاحظات وتنبيهات لوالد الطالب',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -105,7 +121,7 @@ class StudentParent20 extends StatelessWidget {
                             ),
                             // زر البلاي لست الي يظهر معنى التحضير للطلاب
                             const Icon(
-                              Icons.person_pin_circle_outlined,
+                              Icons.person,
                               size: 18,
                               color: Colors.white,
                             ),
@@ -113,7 +129,7 @@ class StudentParent20 extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'اسم الطالب: ${user.displayName}',
+                              'المشرف: ${user.email}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -126,60 +142,39 @@ class StudentParent20 extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      // هنا جزء الحاوية لتحضير الطلاب  ( الداتا تايبل وتحضير الطلاب ذهاب واياب)
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        // height: MediaQuery.of(context).size.height,
-                        height: 480,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: const Color(0xff3b4c9f),
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
-                                ),
-                                onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsParent22()));
-                                },
-                                child: const Text("الاطلاع على الإشعارات",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red.shade900,
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
-                                ),
-                                onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${user.displayName} ');
-                                  childMethod(context);                                },
-                                child: const Text("طلب الغاء الذهاب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red.shade900,
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
-                                ),
-                                onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${user.displayName} ');
-                                  childMethod(context);                                  },
-                                child: const Text("طلب الغاء الاياب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: const Color(0xff3b4c9f),
-                                  padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
-                                ),
-                                onPressed: (){},
-                                child: const Text("ملاحظة سبب الغياب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                              )
-                            ],
-                          )
+                      // هنا جزء الحاوية الخاصة بالتنبيهات الي تاتي من اولياً الامور
+                      SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          // height: MediaQuery.of(context).size.height,
+                          height: 280,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)),
+                          child:  Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextField(
+                              controller: noteController,
+                              onChanged: (value){
+                                setState(() {
+                                  noteController.text=value;
+                                });
+                              },
+                              autofocus: true,
+                                textAlign: TextAlign.start,
+                                autocorrect: true,
+                                maxLines: 15,
+                                textAlignVertical: TextAlignVertical.top,
+                                style: TextStyle(fontSize: 14),
+                                decoration: InputDecoration(
+                                  // contentPadding: EdgeInsets.symmetric(vertical: 230),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'ادخل نص الملاحظة',
 
+                                  // labelText: noteController.text,
+                                ),)
+                          ),
                         ),
                       ),
                     ],
@@ -193,23 +188,21 @@ class StudentParent20 extends StatelessWidget {
     );
   }
 
-
   void childMethod(BuildContext? context) {
     showDialog(
       context: context!,
       builder: (context) => AlertDialog(
         title: const Text('تنبية'),
-        content: const Text('تم بنجاح ارسال تنبية لمشرف الباص ..'),
+        content: const Text('تم بنجاح ارسال رسالة لأولياء الامور ..'),
         actions: [
           TextButton(
-            child: const Text('اغلاق'),
+            child: const Text(''),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ],
       ),
     );
   }
-
 }
 
 

@@ -1,220 +1,156 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:school_delivery/business/authSignInSignUp.dart';
-import 'package:school_delivery/ui/Feature/Login%20Screen/Login_Screen_Supervisor.dart';
+import 'package:provider/provider.dart';
+import 'package:school_delivery/ui/add_New_Student17.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:school_delivery/ui/users_Interface5.dart';
+import 'package:school_delivery/ui/widgets/dataTableStudentList.dart';
+import 'package:school_delivery/ui/widgets/floatActionButton.dart';
+import 'package:school_delivery/ui/widgets/menuSettingLogoutAddDelete.dart';
+import 'package:supercharged/supercharged.dart';
 
-import 'add_New_Student17.dart';
+import '../Provider/profideDataStuent.dart';
 import 'modify_New_Student17.dart';
 
-class PreparingStudents16 extends StatefulWidget {
-  const PreparingStudents16({Key? key}) : super(key: key);
-
-  @override
-  State<PreparingStudents16> createState() => _PreparingStudents16();
-}
-
-class _PreparingStudents16 extends State<PreparingStudents16> {
-  List studentsGListObject = [];
-  // late QuerySnapshot snap;
-  CollectionReference collectionReference =
-      FirebaseFirestore.instance.collection('StudentsG');
-  final user = FirebaseAuth.instance.currentUser!;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    getStudentsDetailsList();
-  }
-
+class PreparingStudents16 extends StatelessWidget {
+  DateTime today = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    getStudentsDetailsList();
 
+    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
+    // Provider.of<ProviderDataStudent>(context).preparingDetailsList();
+    final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // Add your refresh logic here
-                    setState(() {
-                      Navigator.pop(context);
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PreparingStudents16()));
-                    });
-                  },
-                  icon: Icon(Icons.refresh),
-                  color: Colors.grey,
-                  tooltip: 'Refresh',
-                  iconSize: 32,
-                ),
-                Text("كشف الطلاب",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w900),),
-                IconButton(
-                  onPressed: () {
-                    // Add your refresh logic here
-                    FirebaseAuth.instance.signOut();
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UserInterface5()));
-                  },
-                  icon: Icon(Icons.logout_outlined),
-                  color: Colors.grey,
-                  tooltip: 'Refresh',
-                  iconSize: 32,
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: SafeArea(
-            child: Stack(children: [
-          Scaffold(
-            appBar: AppBar(
-              title: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Center(child: Text(' المشرف : ${user.email} ',style: TextStyle(fontSize: 15,color: Colors.white),))),
-            ),
-            backgroundColor: const Color(
-                0xffecefe4), // make the Scaffold background transparent
-            body: Directionality(
-              textDirection: TextDirection.rtl,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          setState(() {});
-                        },
-                        child: StreamBuilder(
-                          stream: collectionReference.snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                                return CircularProgressIndicator();
-                            } else if (snapshot.hasError || !studentsGListObject.isNotEmpty) {
-                              return Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        ' حدث خطأ قد يكون بسبب ما او لعدم وجود بيانات ، اذا كان  ${snapshot.hasError}'),
-                                    Text(
-                                        ' بسبب عدم وجود بيانات فعليك اضافة طلاب وستحتل المشكلة',style: TextStyle(color: Colors.red),)
-                                  ],
-                                ),
-                              );
-                            }
-                            print(
-                                "snapshot in streamBuilder : ${snapshot.hasData}");
-
-                            return DataTable(
-                              columns: const [
-                                DataColumn(
-                                  label: Text(
-                                    'الاسم',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  ),
-                                ),
-                                DataColumn(
-                                    label: Text(
-                                  'رقم الهاتف',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                )),
-                                DataColumn(
-                                    label: Text(
-                                  'تعديل',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                )),
-                                DataColumn(
-                                    label: Text(
-                                  'حذف',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                )),
-                              ],
-                              rows: studentsGListObject.map((row) {
-                                return DataRow(
-                                    color: MaterialStateColor.resolveWith(
-                                        (states) => Colors.grey),
-                                    cells: [
-                                      DataCell(Text(row['fullName'])),
-                                      DataCell(Text(row['phone'].toString())),
-                                      DataCell(IconButton(
-                                        icon: const Icon(
-                                          Icons.edit,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ModifyStudentsG17()),
-                                          );
-                                        },
-                                      )),
-                                      DataCell(IconButton(
-                                        icon: const Icon(
-                                          Icons.delete,
-                                        ),
-                                        onPressed: () {},
-                                      )),
-                                    ]);
-                              }).toList(),
-                            );
-                          },
+      home: Consumer<ProviderDataStudent>(
+        builder: (context,dataStudent,child){
+            return SafeArea(
+              child: Scaffold(
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: FloatActionButton(),
+                backgroundColor: const Color(0xff3b4c9f),
+                body: Container(
+                  padding:
+                  const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 80),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // تصميم الرأس ( الثلاث النقاط فيها تسجيل خروج و اضافة اسم جديد ، حذف طالب ) ثم العنوان وزر التحديث
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const MenuSettingLogoutAddDelete(),
+                            // زر البلاي لست الي يظهر معنى التحضير للطلاب
+                            const Icon(
+                              Icons.playlist_add_check,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            // نص عنوان الصفحة " التحضير اليومي للطلاب "
+                            const Text(
+                              'التحضير اليومي للطلاب',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text('العدد : ${dataStudent.studentsGListObject.length}',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 12),)
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      // تصميم تاريخ اليوم واسم ا لمشرف كصفوف
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              'تأريخ اليوم :${today.day}-${today.month}-${today.year} ',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              'المشرف: ${user.email}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      // هنا جزء الحاوية لتحضير الطلاب  ( الداتا تايبل وتحضير الطلاب ذهاب واياب)
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        // height: MediaQuery.of(context).size.height,
+                        height: 480,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: SingleChildScrollView(
+                            scrollDirection:Axis.vertical ,
+                            child: StreamBuilder(
+                              // stream: collectionReference.snapshots(),
+                              stream: dataStudent.collectionReference.snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            ' حدث خطأ قد يكون بسبب ما او لعدم وجود بيانات ، اذا كان  ${snapshot.hasError}'),
+                                        const Text(
+                                          ' بسبب عدم وجود بيانات فعليك اضافة طلاب وستحتل المشكلة او اضغط على تحديث',
+                                          style: TextStyle(color: Colors.red),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }else
+                                  // هنا اهم جزء وهو الداتا تايبل الخاصة بالطلاب وتحضيرهم
+                                  return DataTableStudentList();
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.add),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AddStudentsG17()),
-                );
-              },
-            ),
-          ),
-        ])),
+            );
+        },
       ),
     );
   }
 
-  Future getStudentsDetailsList() async {
-    final snapshot = await collectionReference.get();
-    studentsGListObject = snapshot.docs;
-
-    print('Snapshot = ${snapshot.size}');
-
-    setState(() {
-      studentsGListObject = snapshot.docs;
-      if (studentsGListObject.isNotEmpty) {
-        print('USERLIST IS NOT EMPTY');
-      } else {
-        print('user is empty');
-      }
-    });
-  }
+  // Future getStudentsDetailsList() async {
+  //   final snapshot = await collectionReference.get();
+  //   studentsGListObject = snapshot.docs;
+  // }
 }
+
+
+
+
+
+
+
+

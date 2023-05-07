@@ -10,10 +10,13 @@ class StudentsGuardians {
   String? confirmPassword;
   int? busId;
   int? supervisorId;
+  bool? isGo;
+  bool? isBack;
+  bool? selected;
   static final _db=FirebaseFirestore.instance;
 
 
-  StudentsGuardians({this.id, this.fullName, this.phone, this.address,this.email,this.password,this.confirmPassword,this.busId,this.supervisorId});
+  StudentsGuardians({this.id, this.fullName, this.phone, this.address,this.email,this.password,this.confirmPassword,this.busId,this.supervisorId,this.isGo,this.isBack,this.selected});
 
   Map<String, dynamic> toJson() => {
     'id': id,
@@ -25,6 +28,9 @@ class StudentsGuardians {
     'confirmPassword': confirmPassword,
     'busId':busId,
     'supervisorId': supervisorId,
+    'isGo':isGo,
+    'isBack':isBack,
+    'selected':selected
   };
 
   factory StudentsGuardians.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
@@ -39,7 +45,11 @@ class StudentsGuardians {
         password: data["password"],
         confirmPassword: data["confirmPassword"],
         busId: data["busId"],
-        supervisorId:data['supervisorId']);
+        supervisorId:data['supervisorId'],
+        isGo: data['isGo'],
+        isBack: data['isBack'],
+        selected: data['selected']
+    );
   }
 
   static Future createStudentsGuardians(StudentsGuardians object) async {
@@ -56,11 +66,15 @@ class StudentsGuardians {
       confirmPassword: object.confirmPassword,
       busId: object.busId,
       supervisorId: object.supervisorId,
+      isGo: object.isGo,
+      isBack: object.isBack,
+      selected: object.selected
     );
     final json = studentG.toJson();
 
     ///Create document and write data to Firebase
     await docsStudentGuardians.set(json);
+
   }
 
 // Fetch All uer Or User Details

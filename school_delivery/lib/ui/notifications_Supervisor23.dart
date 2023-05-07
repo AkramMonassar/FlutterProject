@@ -1,204 +1,185 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
-import 'package:school_delivery/ui/widgets/backgroundsmal.dart';
-import './student_Parent20.dart';
-import 'package:adobe_xd/page_link.dart';
-import './settings23.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:school_delivery/ui/users_Interface5.dart';
+import 'package:school_delivery/ui/widgets/floatActionButton.dart';
+import '../Provider/profideDataStuent.dart';
 
 class NotificationsSupervisor23 extends StatelessWidget {
-  const NotificationsSupervisor23({
-    Key? key,
-  }) : super(key: key);
+  DateTime today = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffecefe4),
-      body: Stack(
-        children: <Widget>[
-          BackgroundSmall(),
-          Pinned.fromPins(
-            Pin(size: 168.0, middle: 0.437),
-            Pin(size: 167.0, start: 57.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/schoolbus.png'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius:
-                    BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-              ),
-            ),
-          ),
-          const Align(
-            alignment: Alignment(-0.132, -0.231),
-            child: SizedBox(
-              width: 104.0,
-              height: 35.0,
-              child: Text(
-                'الاشعارات',
-                style: TextStyle(
-                  fontFamily: 'Segoe UI',
-                  fontSize: 26,
-                  color: Color(0xff000000),
-                ),
-                softWrap: false,
-              ),
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 208.0, end: -5.5),
-            Pin(size: 24.0, middle: 0.4797),
-            child: const Text(
-              'لم يصعد الطالب الى الحافلة',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 18,
-                color: Color(0xff000000),
-              ),
-              softWrap: false,
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 90.0, middle: 0.5348),
-            Pin(size: 56.0, end: 20.0),
-            child: PageLink(
-              links: [
-                PageLinkInfo(
-                  transition: LinkTransition.Fade,
-                  ease: Curves.easeOut,
-                  duration: 0.3,
-                  pageBuilder: () => StudentParent20(),
-                ),
-              ],
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xffffffff),
-                  borderRadius: BorderRadius.circular(37.0),
-                  border:
-                      Border.all(width: 1.0, color: const Color(0xff707070)),
-                ),
-              ),
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 54.0, middle: 0.5384),
-            Pin(size: 35.0, end: 31.5),
-            child: const Text(
-              'رجوع',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 26,
-                color: Color(0xff000000),
-              ),
-              softWrap: false,
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 208.0, end: -5.5),
-            Pin(size: 24.0, middle: 0.7961),
-            child: const Text(
-              'لم يصعد الطالب الى الحافلة',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 18,
-                color: Color(0xff000000),
-              ),
-              softWrap: false,
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 208.0, end: -5.5),
-            Pin(size: 24.0, middle: 0.7115),
-            child: const Text(
-              'لم يصعد الطالب الى الحافلة',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 18,
-                color: Color(0xff000000),
-              ),
-              softWrap: false,
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 208.0, end: -5.5),
-            Pin(size: 24.0, middle: 0.6269),
-            child: const Text(
-              'لم يصعد الطالب الى الحافلة',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 18,
-                color: Color(0xff000000),
-              ),
-              softWrap: false,
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 208.0, end: -5.5),
-            Pin(size: 24.0, middle: 0.5643),
-            child: const Text(
-              'لم يصعد الطالب الى الحافلة',
-              style: TextStyle(
-                fontFamily: 'Segoe UI',
-                fontSize: 18,
-                color: Color(0xff000000),
-              ),
-              softWrap: false,
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(size: 42.0, start: 25.0),
-            Pin(size: 34.0, start: 57.0),
-            child: PageLink(
-              links: [
-                PageLinkInfo(
-                  transition: LinkTransition.Fade,
-                  ease: Curves.easeOut,
-                  duration: 0.3,
-                  pageBuilder: () => Settings23(),
-                ),
-              ],
-              child: Stack(
-                children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(size: 8.0, start: 0.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffffffff),
-                        border: Border.all(
-                            width: 1.0, color: const Color(0xff707070)),
+
+    Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
+    final alertsManager = Provider.of<ProviderDataStudent>(context);
+    alertsManager.AlertsManager();
+
+    final user = FirebaseAuth.instance.currentUser!;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Consumer<ProviderDataStudent>(
+        builder: (context,dataStudent,child){
+          return SafeArea(
+            child: Scaffold(
+              backgroundColor: const Color(0xff3b4c9f),
+              body: Container(
+                padding:
+                const EdgeInsets.only(top: 30, left: 20, right: 20, bottom: 80),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // تصميم الرأس ( الثلاث النقاط فيها تسجيل خروج و اضافة اسم جديد ، حذف طالب ) ثم العنوان وزر التحديث
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          // اعدادات الصفحة لتسجيل الخروج
+                          GestureDetector(
+                              onTap: (){
+                                showMenu(
+                                  context: context,
+                                  position: const RelativeRect.fromLTRB(25.0, 25.0, 0.0, 0.0),
+                                  items: [
+                                    PopupMenuItem(
+                                      value: 'Option 1',
+                                      child: GestureDetector(
+                                          onTap: (){
+                                            FirebaseAuth.instance.signOut();
+                                            // Navigator.pop(context);
+                                            // Navigator.of(context).popUntil((route) => route.isFirst);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => UserInterface5()));
+                                          },
+                                          child: Row(
+                                            children: const [
+                                              Icon(Icons.logout_outlined),
+                                              SizedBox(width: 8,),
+                                              Text('تسجيل خروج'),
+                                            ],
+                                          )),
+                                    ),
+                                  ],
+                                  elevation: 8.0,
+                                );
+                              },
+                              child: const Icon(Icons.more_vert,color: Colors.white,)),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          // نص عنوان الصفحة " التنبيهات "
+                          const Text(
+                            'تنبيهات المشرف',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(size: 7.0, end: 0.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffffffff),
-                        border: Border.all(
-                            width: 1.0, color: const Color(0xff707070)),
+                    // تصميم تاريخ اليوم واسم ا لمشرف كصفوف
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'تأريخ اليوم :${today.day}-${today.month}-${today.year} ',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          // زر البلاي لست الي يظهر معنى التحضير للطلاب
+                          const Icon(
+                            Icons.person,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Text(
+                            'المشرف: ${user.email}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+
+                        ],
                       ),
                     ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(size: 10.0, middle: 0.5),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffffffff),
-                        border: Border.all(
-                            width: 1.0, color: const Color(0xff707070)),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    // هنا جزء الحاوية الخاصة بالتنبيهات الي تاتي من اولياً الامور
+                    SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        // height: MediaQuery.of(context).size.height,
+                        height: 480,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        child:  Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: ListView.builder(
+                            itemCount: alertsManager.alerts.length,
+                            itemBuilder: (context, index) {
+                              final alert = alertsManager.alerts[index];
+                              print("-------- message :${alertsManager.alerts[index]}:${alert.message} ------------");
+                              return ListTile(
+                                title: Text(alert.message!),
+                                subtitle: Text(alert.timestamp.toString()),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+          );
+        },
+      ),
+    );
+  }
+
+
+  void childMethod(BuildContext? context) {
+    showDialog(
+      context: context!,
+      builder: (context) => AlertDialog(
+        title: const Text('تنبية'),
+        content: const Text('تم بنجاح ارسال تنبية لمشرف الباص ..'),
+        actions: [
+          TextButton(
+            child: const Text('اغلاق'),
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ],
       ),
     );
   }
+
 }
+
+
+
+
+
+
+
+

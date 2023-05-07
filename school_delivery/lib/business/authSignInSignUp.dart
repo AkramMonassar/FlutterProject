@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:school_delivery/ui/student_Parent20.dart';
@@ -5,9 +6,11 @@ import 'package:school_delivery/ui/student_Parent20.dart';
 import '../ui/preparing_Students16.dart';
 
 class AuthSignInSignUp {
+
   static Future signIn(
       BuildContext context, String email, String password) async {
     String message = '';
+
     try {
       UserCredential? userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -63,7 +66,7 @@ class AuthSignInSignUp {
         Container(
           alignment: AlignmentDirectional.bottomStart,
           child: MaterialButton(
-            child: Text("نعم"),
+            child: Text(""),
             onPressed: () {
               // Close the dialog
               Navigator.of(context).pop();
@@ -135,7 +138,7 @@ class AuthSignInSignUp {
       Navigator.push(context, MaterialPageRoute(builder: (context)=> PreparingStudents16()));
       // Show an error dialog
       showAlertDialog(context, message, "مرحبا");
-      print("user in Sign In :${userCredential.user}");
+      // print("user in Sign In :${userCredential.user}");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         // handle user not found
@@ -170,13 +173,15 @@ class AuthSignInSignUp {
       BuildContext context, String email, String password) async {
     String message = '';
     try {
+
       UserCredential? userCredential =
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      message = ' تم الدخول بنجاح اهلاً وسهلا }';
+      AuthSignInSignUp.showAlertDialog(context, message, "مرحبا");
       // handle successful login
-      // message = ' تم الدخول بنجاح اهلاً وسهلا /${userCredential.user!.email}';
       Navigator.push(context, MaterialPageRoute(builder: (context)=> StudentParent20()));
       // Show an error dialog
       // showAlertDialog(context, message, "مرحبا");
@@ -266,8 +271,36 @@ class AuthSignInSignUp {
       if (passwordConfirmed(password, confirm)) {
         print("------------in create user---------");
         // انشاء مستخدم جديد في جدول التحقق الايميل وكلمة المرور فقط على فايربيس
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential? userCredential;
+         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: email.trim(), password: password.trim());
+        //      .then((value) => {
+        //    // update then user's display name
+        //     userCredential?.user?.updateProfile(
+        //     displayName: name
+        // )
+
+
+            // });
+
+        FirebaseAuth.instance.currentUser?.updateDisplayName(name);
+
+        print('Name from create user : ${name}');
+
+
+    //     firebase.auth().createUserWithEmailAndPassword(email, password)
+    //         .then((userCredential) => {
+    //         // Update the user's display name
+    //         return userCredential.user.updateProfile({
+    //         displayName: name
+    //         });
+    //   })
+    //     .catch((error) => {
+    // // Handle errors
+    // console.log(error.message);
+    // });
+
+        // FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)
         message = "تم بنجاح انشاء مستخدم جديد";
         showAlertDialog(context, message, "مبروك");
       } else {

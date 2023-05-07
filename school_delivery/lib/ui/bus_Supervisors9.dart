@@ -31,81 +31,86 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
     return SafeArea(
       child: Stack(
         children: [
-          // Background image
-          Image.asset(
-            'assets/images/background.jpg',
-            fit: BoxFit.fill,
-          ),
           Scaffold(
-            backgroundColor: const Color(0xffecefe4), // make the Scaffold background transparent
-            body: Directionality(
-              textDirection: TextDirection.rtl,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: RefreshIndicator(
-                        onRefresh: () async {
-                          setState(() {});
-                        },
-                        child: StreamBuilder(
-                          stream: collectionReference.snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return CircularProgressIndicator();
-                            } else if (snapshot.hasError) {
-                              return Center(
-                                child: Text(' حدث خطأ  ${snapshot.hasError}'),
-                              );
-                            }
-                            print("snapshot in streamBuilder : ${snapshot.hasData}");
+            backgroundColor: const Color(0xff3b4c9f), // make the Scaffold background transparent
+            body: Container(
+              padding: EdgeInsets.only(top: 40,right: 10,left: 10,bottom: 20),
+              child: Container(
+                // width: 500,
+                height: 800,
+                decoration: BoxDecoration(
+                  color: Color(0xfffdfdfd),
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+                ),
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: RefreshIndicator(
+                            onRefresh: () async {
+                              setState(() {});
+                            },
+                            child: StreamBuilder(
+                              stream: collectionReference.snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(' حدث خطأ  ${snapshot.hasError}'),
+                                  );
+                                }
+                                print("snapshot in streamBuilder : ${snapshot.hasData}");
 
-                            return DataTable(
-                              columns: const [
-                                DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
-                                DataColumn(label: Text('البريد الالكتروني',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                DataColumn(label: Text('كلمة المرور',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                                DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
-                              ],
-                              rows: SupervisorListObject.map((row) {
-                                return DataRow(
-                                    color: MaterialStateColor.resolveWith((states) => Colors.grey),
-                                    cells: [
-                                      DataCell(Text(row['name'])),
-                                      DataCell(Text(row['email'])),
-                                      DataCell(Text(row['password'])),
-                                      DataCell(Text(row['phone'].toString())),
-                                      DataCell(IconButton(
-                                        icon: const Icon(
-                                          Icons.edit,
-                                        ),
-                                        onPressed: (){
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) => ModifyBusSupervisor12()),
-                                          );
-                                        },
-                                      )),
-                                      DataCell(IconButton(
-                                        icon: const Icon(
-                                          Icons.delete,
-                                        ),
-                                        onPressed: (){
+                                return DataTable(
+                                  columnSpacing: 2,
+                                  dividerThickness: 3,
 
-                                        },
-                                      )),
-                                    ]);
-                              }).toList(),
-                            );
-                          },
+                                  columns: const [
+                                    DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),),),
+                                    DataColumn(label: Text('البريد الالكتروني',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),)),
+                                    DataColumn(label: Text('تعديل',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),)),
+                                    DataColumn(label: Text('حذف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:12),)),
+                                  ],
+                                  rows: SupervisorListObject.map((row) {
+                                    return DataRow(
+                                        color: MaterialStateColor.resolveWith((states) => Colors.grey),
+                                        cells: [
+                                          DataCell(Text(row['name'],style: TextStyle(fontWeight: FontWeight.bold,fontSize:12))),
+                                          DataCell(Text(row['email'],style: TextStyle(fontWeight: FontWeight.bold,fontSize:12))),
+                                          DataCell(IconButton(
+                                            icon: const Icon(
+                                              Icons.edit,
+                                            ),
+                                            onPressed: (){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => ModifyBusSupervisor12()),
+                                              );
+                                            },
+                                          )),
+                                          DataCell(IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                            ),
+                                            onPressed: (){
+
+                                            },
+                                          )),
+                                        ]);
+                                  }).toList(),
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:school_delivery/ui/temporary_Start_Interface1.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:async';
+import 'package:provider/provider.dart';
+
+
+import 'Provider/profideDataStuent.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,10 +17,13 @@ Future main() async{
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'My App',
-      home: TemporaryStartUI1(),
+    return ChangeNotifierProvider(
+      create: (context) => ProviderDataStudent(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'My App',
+        home: TemporaryStartUI1(),
+      ),
     );
   }
 }
