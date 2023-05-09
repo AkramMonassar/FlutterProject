@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 
 import '../add_New_Student17.dart';
-import '../notifications_Parent22.dart';
+import '../note_Write_Supervisor18.dart';
+import '../notifications_Note_Supervisor23.dart';
+import '../notifications_Supervisor23.dart';
 
-
-class FloatActionButtonGuardiansStudent extends StatelessWidget {
+class FloatActionButton extends StatelessWidget {
+  const FloatActionButton({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // زر التقرير
+        // زر note
         FloatingActionButton(
-          onPressed: () {},
+          heroTag: null,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NoteWriteSuprvisor18()));
+          },
           backgroundColor: Colors.indigo[300],
-          child: const Icon(Icons.report_outlined),
+          child: const Icon(Icons.note_add_outlined),
         ),
         Stack(
           children: [
             FloatingActionButton(
+              heroTag: null,
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsParent22()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsSupervisor23()));
               },
               child: const Icon(Icons.notifications,),
             ),
@@ -50,14 +58,15 @@ class FloatActionButtonGuardiansStudent extends StatelessWidget {
           ],
         ),
         FloatingActionButton(
+          heroTag: null,
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddStudentsG17()),
+              MaterialPageRoute(builder: (context) => NotificationsNoteSupervisor23()),
             );
           },
           backgroundColor: Colors.indigo[300],
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.message_outlined),
         ),
       ],
     );

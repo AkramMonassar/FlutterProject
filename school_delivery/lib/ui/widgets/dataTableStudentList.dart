@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:school_delivery/business/authSignInSignUp.dart';
 import 'package:school_delivery/data/preparations_model.dart';
 
-import '../../Provider/profideDataStuent.dart';
+import '../../Provider/provider_Data_Manager.dart';
 
 class DataTableStudentList extends StatefulWidget {
   @override
@@ -21,8 +21,8 @@ class _DataTableStudentListState extends State<DataTableStudentList> {
 
   void _updateFirestore() {
     var today = DateTime.now();
-    var goCollection =
-        'prepare_schedule_${today.year}_${today.month}_${today.day}';
+    var goCollection ='prepare_schedule';
+        // 'prepare_schedule_${today.year}_${today.month}_${today.day}';
     for (var student in selectedStudents) {
       firestore.collection(goCollection).doc(student).set({
         'name': student,
@@ -213,34 +213,17 @@ class _DataTableStudentListState extends State<DataTableStudentList> {
                 ),
               ),
             ),
+            SizedBox(height: 10,),
             // حاوية الملاحظة
             Container(
               width: MediaQuery.of(context).size.width,
-              // padding:EdgeInsets.only(top: 5,right: 10,left: 10,bottom: 10),
+              padding:EdgeInsets.only(top: 5,right: 10,left: 10,bottom: 10),
               decoration: BoxDecoration(
-
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Colors.indigo
               ),
-              child: CheckboxListTile(
-                value: ok,
-                title:Text("ملاحظة"),
-                subtitle: Text('اولاً حدد على كل الطلاب واحفظ دون تحديد الحضور او الاياب من اجل حفظ قيم اولية ثم بعدها تأشر على التحضير وتحفظ بشرط يكون الطلاب الي تريد تحضيرهم محددين',style: TextStyle(
-                  fontWeight: FontWeight.bold
-                ),),
-                onChanged: (newValue){
-                  setState(() {
-                    ok=newValue!;
-                  });
-                },
-                checkColor: Colors.white,
-                activeColor: Colors.white,
-                tileColor: Colors.white,
-                selectedTileColor: Colors.red,
-                isThreeLine: false,
-                tristate: true,
-                // contentPadding: EdgeInsets.all(),
-              ),
+              child:Text('اولاً حدد على كل الطلاب واحفظ دون تحديد الحضور او الانصراف من اجل حفظ قيم اولية ثم بعدها تأشر على التحضير وتحفظ بشرط يكون الطلاب الي تريد تحضيرهم محددين',style: TextStyle(color: Colors.white),),
             ),
-
             // ...............................................  section show report
           ],
         ),

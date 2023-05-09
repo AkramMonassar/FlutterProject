@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:school_delivery/ui/users_Interface5.dart';
-import 'package:school_delivery/ui/widgets/floatActionButton.dart';
-import '../Provider/profideDataStuent.dart';
+import 'package:school_delivery/ui/widgets/floatActionButtonSupervisor.dart';
+import '../Provider/provider_Data_Manager.dart';
 
 class NotificationsSupervisor23 extends StatelessWidget {
   DateTime today = DateTime.now();
@@ -85,37 +85,31 @@ class NotificationsSupervisor23 extends StatelessWidget {
                     // تصميم تاريخ اليوم واسم ا لمشرف كصفوف
                     Directionality(
                       textDirection: TextDirection.rtl,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'تأريخ اليوم :${today.day}-${today.month}-${today.year} ',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'تأريخ اليوم :${today.day}-${today.month}-${today.year} ',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          // زر البلاي لست الي يظهر معنى التحضير للطلاب
-                          const Icon(
-                            Icons.person,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            'المشرف: ${user.email}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                            const SizedBox(
+                              width: 5,
                             ),
-                          ),
+                            Text(
+                              'المشرف: ${alertsManager.user.email}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
 
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(

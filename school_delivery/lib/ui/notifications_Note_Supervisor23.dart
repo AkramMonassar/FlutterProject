@@ -6,14 +6,14 @@ import 'package:school_delivery/ui/users_Interface5.dart';
 import 'package:school_delivery/ui/widgets/floatActionButtonStudentG.dart';
 import '../Provider/provider_Data_Manager.dart';
 
-class NotificationsParent22 extends StatelessWidget {
+class NotificationsNoteSupervisor23 extends StatelessWidget {
   DateTime today = DateTime.now();
   @override
   Widget build(BuildContext context) {
 
     // Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final noteManager = Provider.of<ProviderDataStudent>(context);
-    noteManager.NoteManager();
+    final noteStudentGManager = Provider.of<ProviderDataStudent>(context);
+    noteStudentGManager.notesStudentGManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
@@ -70,9 +70,9 @@ class NotificationsParent22 extends StatelessWidget {
                           const SizedBox(
                             width: 15,
                           ),
-                          // نص عنوان الصفحة " التنبيهات "
+                          // نص عنوان الصفحة " الملاحظات لولي الامر "
                           const Text(
-                            'تنبيهات ولي الامر',
+                            'ملاحظات ولي الامر',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -82,40 +82,37 @@ class NotificationsParent22 extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // تصميم تاريخ اليوم واسم الطالب
+                    // تصميم تاريخ اليوم واسم المشرف
                     Directionality(
                       textDirection: TextDirection.rtl,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'تأريخ اليوم :${today.day}-${today.month}-${today.year} ',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'تأريخ اليوم :${today.day}-${today.month}-${today.year} ',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          // زر البلاي لست الي يظهر معنى التحضير للطلاب
-                          const Icon(
-                            Icons.person_pin_circle_outlined,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                          Text(
-                            'اسم الطالب: ${noteManager.user.displayName}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
+                            const SizedBox(
+                              width: 3,
                             ),
-                          ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            Text(
+                              'المشرف: ${noteStudentGManager.user.email}',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
 
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -134,10 +131,10 @@ class NotificationsParent22 extends StatelessWidget {
                         child:  Directionality(
                           textDirection: TextDirection.rtl,
                           child: ListView.builder(
-                            itemCount: noteManager.notes.length,
+                            itemCount: noteStudentGManager.notesStudentG.length,
                             itemBuilder: (context, index) {
-                              final notes = noteManager.notes[index];
-                              print("-------- message :${noteManager.notes[index]}:${notes.message} ------------");
+                              final notes = noteStudentGManager.notesStudentG[index];
+                              print("-------- message :${noteStudentGManager.notesStudentG[index]}:${notes.message} ------------");
                               return ListTile(
                                 title: Text(notes.message!),
                                 subtitle: Text(notes.timestamp.toString()),

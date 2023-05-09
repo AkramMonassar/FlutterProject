@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../Provider/alertsManagerProvider.dart';
-import '../../Provider/profideDataStuent.dart';
+import '../../Provider/provider_Data_Manager.dart';
 
 
 

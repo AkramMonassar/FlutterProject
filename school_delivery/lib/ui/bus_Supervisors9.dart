@@ -36,7 +36,7 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
             body: Container(
               padding: EdgeInsets.only(top: 40,right: 10,left: 10,bottom: 20),
               child: Container(
-                // width: 500,
+                width: MediaQuery.of(context).size.width,
                 height: 800,
                 decoration: BoxDecoration(
                   color: Color(0xfffdfdfd),
@@ -67,7 +67,7 @@ class _BusSupervisors9 extends State<BusSupervisors9> {
                                 print("snapshot in streamBuilder : ${snapshot.hasData}");
 
                                 return DataTable(
-                                  columnSpacing: 2,
+                                  columnSpacing: 15,
                                   dividerThickness: 3,
 
                                   columns: const [

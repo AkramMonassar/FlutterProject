@@ -7,22 +7,22 @@ import 'package:school_delivery/ui/widgets/floatActionButtonSupervisor.dart';
 import '../Provider/provider_Data_Manager.dart';
 import 'Core/Animation/Fade_Animation.dart';
 
-class NoteWriteSuprvisor18 extends StatefulWidget {
+class NoteWriteStudentGuardian21 extends StatefulWidget {
   @override
-  State<NoteWriteSuprvisor18> createState() => _NoteWriteSuprvisor18State();
+  State<NoteWriteStudentGuardian21> createState() => _NoteWriteStudentGuardian21();
 }
 
-class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
+class _NoteWriteStudentGuardian21 extends State<NoteWriteStudentGuardian21> {
   DateTime today = DateTime.now();
 
-  TextEditingController noteController=TextEditingController();
+  TextEditingController noteStudentGController=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
 
     Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
-    final noteManager = Provider.of<ProviderDataStudent>(context);
-    noteManager.NoteManager();
+    final noteStudentGManager = Provider.of<ProviderDataStudent>(context);
+    noteStudentGManager.NoteManager();
 
     final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
@@ -36,8 +36,8 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
               floatingActionButton:FloatingActionButton(
                 heroTag: null,
                 onPressed: () {
-                  noteManager.addNote('${noteController.text}');
-                  noteController.text="";
+                  noteStudentGManager.addNoteStudentG('${noteStudentGController.text} :ولي امر الطالب :${noteStudentGManager.user.displayName}');
+                  noteStudentGController.text="";
                   childMethod(context);
 
                 },
@@ -96,7 +96,7 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
                             ),
                             // نص عنوان الصفحة " التنبيهات "
                             const Text(
-                              'كتابة ملاحظات وتنبيهات لوالد الطالب',
+                              ' ملاحظات  لمشرف الباص',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -122,10 +122,19 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 3,
+                                width: 15,
+                              ),
+                              // زر البلاي لست الي يظهر معنى التحضير للطلاب
+                              const Icon(
+                                Icons.person,
+                                size: 18,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                width: 15,
                               ),
                               Text(
-                                'المشرف: ${noteManager.user.email}',
+                                'الطالب: ${noteStudentGManager.user.displayName}',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -139,7 +148,7 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
                       const SizedBox(
                         height: 5,
                       ),
-                      // هنا جزء الحاوية الخاصة بالتنبيهات الي تاتي من اولياً الامور
+                      // هنا جزء الحاوية الخاصة بالتنبيهات الي تاتي من مشرف الباص
                       SingleChildScrollView(
                         scrollDirection: Axis.vertical,
                         child: Container(
@@ -150,7 +159,7 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(8)),
                           child:  TextField(
-                            controller: noteController,
+                            controller: noteStudentGController,
                             textAlign: TextAlign.right,
                             // minLines: 1,
                             maxLength: 200,
@@ -189,7 +198,7 @@ class _NoteWriteSuprvisor18State extends State<NoteWriteSuprvisor18> {
       context: context!,
       builder: (context) => AlertDialog(
         title: const Text('تنبية'),
-        content: const Text('تم بنجاح ارسال رسالة لأولياء الامور ..'),
+        content: const Text('تم بنجاح ارسال رسالة لمشرف الباص ..'),
         actions: [
           TextButton(
             child: const Text(''),

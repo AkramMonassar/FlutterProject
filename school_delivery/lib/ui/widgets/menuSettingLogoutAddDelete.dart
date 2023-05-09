@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:school_delivery/ui/add_New_Student17.dart';
 import 'package:school_delivery/ui/modify_New_Student17.dart';
 
 import '../users_Interface5.dart';
@@ -36,6 +37,21 @@ class MenuSettingLogoutAddDelete extends StatelessWidget {
                         Text('تسجيل خروج'),
                       ],
                     )),
+              ),
+              PopupMenuItem(
+                value: 'Option 2',
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AddStudentsG17()));
+                  },
+                  child: Row(
+                    children: const [
+                      Icon(Icons.add),
+                      SizedBox(width: 8,),
+                      Text('اضافة طالب'),
+                    ],
+                  ),
+                ),
               ),
               PopupMenuItem(
                 value: 'Option 2',

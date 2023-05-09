@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:school_delivery/data/notes_StudentG_model.dart';
 import 'package:school_delivery/data/students_Guardians_model.dart';
 
 import '../data/alert_model.dart';
-import '../data/notes_model.dart';
+import '../data/notes_StudentG_model.dart';
+import '../data/notes_Supervisor_model.dart';
 import '../data/preparations_model.dart';
 
 class ProviderDataStudent extends ChangeNotifier{
@@ -17,6 +19,8 @@ class ProviderDataStudent extends ChangeNotifier{
 
 
   final user = FirebaseAuth.instance.currentUser!;
+
+
   bool? isChecked=false;
 
   Future getStudentsDetailsList() async {
@@ -40,22 +44,10 @@ class ProviderDataStudent extends ChangeNotifier{
   }
 
   void updateData(bool isCheck) {
-    // final index = studentsGListObject.indexWhere((item) => item.name == data.fullName);
-    // print('------ UpdateData :${data.fullName}');
-    // if (index != -1) {
-    //   studentsGListObject[index] = data;
-    //   notifyListeners();
-    // }
     isChecked=isCheck;
     notifyListeners();
 
   }
-
-  // void resetSelection() {
-  //   _selectedItem = null;
-  //   studentsGListObject.forEach((item) => item.selected = false);
-  //   notifyListeners();
-  // }
 
   void selectItem(StudentsGuardians item) {
     _selectedItem = item;
@@ -129,14 +121,9 @@ class ProviderDataStudent extends ChangeNotifier{
     });
   }
 
-  // @override
-  // void dispose() {
-  //   _subscription?.cancel();
-  //   super.dispose();
-  // }
 
 
-  // provider note Manager
+  // provider note Supervisor Manager ------------------------------------------------
 
   CollectionReference _notesCollection =
   FirebaseFirestore.instance.collection('notesSupervisor');
@@ -165,17 +152,55 @@ class ProviderDataStudent extends ChangeNotifier{
   }
 
   void clearNote() {
-    _alertsCollection.get().then((querySnapshot) {
+    _notesCollection.get().then((querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         doc.reference.delete();
       });
     });
   }
 
+  // provider note Student Guardian Manager ------------------------------------------------
+
+  CollectionReference _notesStudentGCollection =
+  FirebaseFirestore.instance.collection('notesStudentG');
+
+  List<NotesStudentG> _notesStudentG = [];
+
+  List<NotesStudentG> get notesStudentG => _notesStudentG;
+
+  StreamSubscription<QuerySnapshot>? _subscription3;
+
+  notesStudentGManager() {
+    _subscription2 = _notesStudentGCollection
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .listen((querySnapshot) {
+      _notesStudentG = querySnapshot.docs.map((doc) => NotesStudentG.fromSnapshot(doc)).toList();
+      notifyListeners();
+    });
+  }
+
+  Future<void> addNoteStudentG(String message) async {
+    await _notesStudentGCollection.add({
+      'message': message,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
+
+  void clearNoteStudentG() {
+    _notesStudentGCollection.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        doc.reference.delete();
+      });
+    });
+  }
+
+
   @override
   void dispose() {
     _subscription2?.cancel();
     _subscription?.cancel();
+    _subscription3?.cancel();
     super.dispose();
   }
 

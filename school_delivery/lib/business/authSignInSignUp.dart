@@ -288,18 +288,6 @@ class AuthSignInSignUp {
         print('Name from create user : ${name}');
 
 
-    //     firebase.auth().createUserWithEmailAndPassword(email, password)
-    //         .then((userCredential) => {
-    //         // Update the user's display name
-    //         return userCredential.user.updateProfile({
-    //         displayName: name
-    //         });
-    //   })
-    //     .catch((error) => {
-    // // Handle errors
-    // console.log(error.message);
-    // });
-
         // FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password)
         message = "تم بنجاح انشاء مستخدم جديد";
         showAlertDialog(context, message, "مبروك");

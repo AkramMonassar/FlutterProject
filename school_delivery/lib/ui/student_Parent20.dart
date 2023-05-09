@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:school_delivery/ui/users_Interface5.dart';
-import 'package:school_delivery/ui/widgets/floatActionButton.dart';
-import 'package:school_delivery/ui/widgets/floatActionButtonGuardiansStudent.dart';
-import '../Provider/profideDataStuent.dart';
+import 'package:school_delivery/ui/widgets/floatActionButtonSupervisor.dart';
+import 'package:school_delivery/ui/widgets/floatActionButtonStudentG.dart';
+import '../Provider/provider_Data_Manager.dart';
+import 'note_Write_StudentGuardian21.dart';
 import 'notifications_Parent22.dart';
 
 class StudentParent20 extends StatelessWidget {
@@ -16,7 +17,7 @@ class StudentParent20 extends StatelessWidget {
     Provider.of<ProviderDataStudent>(context).getStudentsDetailsList();
     final alertsManager = Provider.of<ProviderDataStudent>(context);
 
-    final user = FirebaseAuth.instance.currentUser!;
+    // final user = FirebaseAuth.instance.currentUser!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Consumer<ProviderDataStudent>(
@@ -113,7 +114,7 @@ class StudentParent20 extends StatelessWidget {
                               width: 15,
                             ),
                             Text(
-                              'اسم الطالب: ${user.displayName}',
+                              'اسم الطالب: ${dataStudent.user.displayName}',
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -155,7 +156,7 @@ class StudentParent20 extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
                                 onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${user.displayName} ');
+                                  alertsManager.addAlert(' طلب / عدم الذهاب الى المدرسة للطالب ${dataStudent.user.displayName} ');
                                   childMethod(context);                                },
                                 child: const Text("طلب الغاء الذهاب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               ),
@@ -165,7 +166,7 @@ class StudentParent20 extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
                                 onPressed: (){
-                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${user.displayName} ');
+                                  alertsManager.addAlert(' طلب / عدم الاياب من المدرسة للطالب ${dataStudent.user.displayName} ');
                                   childMethod(context);                                  },
                                 child: const Text("طلب الغاء الاياب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               ),
@@ -174,7 +175,9 @@ class StudentParent20 extends StatelessWidget {
                                   primary: const Color(0xff3b4c9f),
                                   padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 30)
                                 ),
-                                onPressed: (){},
+                                onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>NoteWriteStudentGuardian21()));
+                                },
                                 child: const Text("ملاحظة سبب الغياب",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                               )
                             ],

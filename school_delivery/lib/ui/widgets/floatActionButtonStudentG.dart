@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import '../note_Write_StudentGuardian21.dart';
+import '../notifications_Parent22.dart';
 
-import '../add_New_Student17.dart';
-import '../note_Write_Supervisor18.dart';
-import '../notifications_Supervisor23.dart';
 
-class FloatActionButton extends StatelessWidget {
-  const FloatActionButton({
-    Key? key,
-  }) : super(key: key);
+class FloatActionButtonGuardiansStudent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // زر note
+        // زر التقرير
         FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>NoteWriteSuprvisor18()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NoteWriteStudentGuardian21()));
           },
           backgroundColor: Colors.indigo[300],
           child: const Icon(Icons.note_add_outlined),
@@ -26,7 +22,7 @@ class FloatActionButton extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsSupervisor23()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationsParent22()));
               },
               child: const Icon(Icons.notifications,),
             ),
@@ -53,16 +49,6 @@ class FloatActionButton extends StatelessWidget {
               ),
             ),
           ],
-        ),
-        FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddStudentsG17()),
-            );
-          },
-          backgroundColor: Colors.indigo[300],
-          child: const Icon(Icons.add),
         ),
       ],
     );

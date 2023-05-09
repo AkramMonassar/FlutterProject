@@ -44,34 +44,34 @@ class _BusDrivers10 extends State<BusDrivers10> {
                   padding: EdgeInsets.only(top: 40,right: 5,left: 10,bottom: 20),
                   child: Column(
                     children: [
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: RefreshIndicator(
-                          onRefresh: () async {
-                            setState(() {});
-                          },
-                          child: StreamBuilder(
-                            stream: collectionReference.snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return CircularProgressIndicator();
-                              } else if (snapshot.hasError) {
-                                return Center(
-                                  child: Text(' حدث خطأ  ${snapshot.hasError}'),
-                                );
-                              }
-                              print("snapshot in streamBuilder : ${snapshot.hasData}");
+                      RefreshIndicator(
+                        onRefresh: () async {
+                          setState(() {});
+                        },
+                        child: StreamBuilder(
+                          stream: collectionReference.snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text(' حدث خطأ  ${snapshot.hasError}'),
+                              );
+                            }
+                            print("snapshot in streamBuilder : ${snapshot.hasData}");
 
-                              return Container(
-                                width: 380,
-                                height: 600,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 600,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(20)),
 
-                                ),
+                              ),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
                                 child: DataTable(
-                                  columnSpacing: 5,
+                                  columnSpacing: 15,
                                   columns: const [
                                     DataColumn(label: Text('الاسم',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),),),
                                     DataColumn(label: Text('رقم الهاتف',style: TextStyle(fontWeight: FontWeight.bold,fontSize:18),)),
@@ -106,9 +106,9 @@ class _BusDrivers10 extends State<BusDrivers10> {
                                     ]);
                                   }).toList(),
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],

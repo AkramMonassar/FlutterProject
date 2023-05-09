@@ -16,8 +16,8 @@ class NotesSupervisor {
 
   NotesSupervisor.fromSnapshot(DocumentSnapshot snapshot)
       : message = snapshot['message'],
-        writer=snapshot['writer'],
-        studentGuardianId=snapshot['writer'],
-        supervisorId=snapshot['supervisorId'],
+        // writer=snapshot['writer'],
+        // studentGuardianId=snapshot['writer'],
+        // supervisorId=snapshot['supervisorId'],
         timestamp = (snapshot['timestamp'] as Timestamp).toDate();
 }

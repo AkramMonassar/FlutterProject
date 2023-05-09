@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:provider/provider.dart';
 
 
-import 'Provider/profideDataStuent.dart';
+import 'Provider/provider_Data_Manager.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
